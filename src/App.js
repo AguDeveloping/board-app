@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Container, Row, Col, Pagination, Button, Modal, Form, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Pagination, Button, Modal, Form, Spinner, Badge } from 'react-bootstrap';
+import { PersonCircle, ShieldLock, PlusCircleFill } from 'react-bootstrap-icons';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Card from './components/Card';
 import Login from './components/Login';
-import { Card as CardType } from './types/card';
-import { isAuthenticated, logout, getUser } from './services/authService';
-import { authAxios } from './services/authService';
+import Register from './components/Register';
+import { fetchCards, createCard, deleteCard } from './services/api';
+import { isAuthenticated, logout, getUser } from './services/auth';
+import { generateSampleCards } from './utils/sampleCards';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -47,18 +48,21 @@ const PaginationContainer = styled.div`
   margin-top: 2rem;
 `;
 
-const App: React.FC = () => {
-  const [cards, setCards] = useState<CardType[]>([]);
-  const [filteredCards, setFilteredCards] = useState<CardType[]>([]);
+function App() {
+  const [authenticated, setAuthenticated] = useState(isAuthenticated());
+  const [user, setUser] = useState(getUser());
+  const [cards, setCards] = useState([]);
+  const [filteredCards, setFilteredCards] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [newCardTitle, setNewCardTitle] = useState('');
   const [newCardDescription, setNewCardDescription] = useState('');
+  const [newCardStatus, setNewCardStatus] = useState('todo');
   const [submitting, setSubmitting] = useState(false);
-  const [authenticated, setAuthenticated] = useState(isAuthenticated());
-  const [user, setUser] = useState(getUser());
+  const [generatingSamples, setGeneratingSamples] = useState(false);
+  const [showRegister, setShowRegister] = useState(false); // Toggle between login and register
   const cardsPerPage = 6;
 
   // Handle successful login
@@ -66,6 +70,23 @@ const App: React.FC = () => {
     setAuthenticated(true);
     setUser(getUser());
     loadCards();
+  };
+  
+  // Handle successful registration
+  const handleRegisterSuccess = () => {
+    setAuthenticated(true);
+    setUser(getUser());
+    loadCards();
+  };
+  
+  // Switch to registration form
+  const handleSwitchToRegister = () => {
+    setShowRegister(true);
+  };
+  
+  // Switch to login form
+  const handleSwitchToLogin = () => {
+    setShowRegister(false);
   };
 
   // Handle logout
@@ -79,9 +100,9 @@ const App: React.FC = () => {
   const loadCards = async () => {
     setLoading(true);
     try {
-      const response = await authAxios.get('http://localhost:3000/api/cards');
-      setCards(response.data);
-      setFilteredCards(response.data);
+      const data = await fetchCards();
+      setCards(data);
+      setFilteredCards(data);
     } catch (error) {
       console.error('Error loading cards:', error);
     } finally {
@@ -112,13 +133,28 @@ const App: React.FC = () => {
   }, [authenticated]);
 
   // Handle search input change
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
   // Clear search
   const handleClearSearch = () => {
     setSearchTerm('');
+  };
+
+  // Handle card update
+  const handleCardUpdate = (updatedCard) => {
+    setCards(cards.map(card => card._id === updatedCard._id ? updatedCard : card));
+  };
+
+  // Handle card deletion
+  const handleCardDelete = async (id) => {
+    try {
+      await deleteCard(id);
+      setCards(cards.filter(card => card._id !== id));
+    } catch (error) {
+      console.error('Error deleting card:', error);
+    }
   };
 
   // Pagination logic
@@ -128,7 +164,7 @@ const App: React.FC = () => {
   const totalPages = Math.ceil(filteredCards.length / cardsPerPage);
 
   // Handle page change
-  const handlePageChange = (pageNumber: number) => {
+  const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
@@ -141,7 +177,7 @@ const App: React.FC = () => {
   };
 
   // Handle card creation
-  const handleCreateCard = async (e: React.FormEvent) => {
+  const handleCreateCard = async (e) => {
     e.preventDefault();
     setSubmitting(true);
 
@@ -149,11 +185,11 @@ const App: React.FC = () => {
       const newCard = {
         title: newCardTitle,
         description: newCardDescription,
-        status: 'todo',
+        status: newCardStatus,
       };
 
-      const response = await authAxios.post('http://localhost:3000/api/cards', newCard);
-      setCards([...cards, response.data]);
+      const createdCard = await createCard(newCard);
+      setCards([...cards, createdCard]);
       handleCloseModal();
     } catch (error) {
       console.error('Error creating card:', error);
@@ -161,14 +197,19 @@ const App: React.FC = () => {
       setSubmitting(false);
     }
   };
-
-  // Handle card deletion
-  const handleDeleteCard = async (id: string) => {
+  
+  // Handle sample card generation
+  const handleGenerateSampleCards = async () => {
+    setGeneratingSamples(true);
     try {
-      await authAxios.delete(`http://localhost:3000/api/cards/${id}`);
-      setCards(cards.filter(card => card._id !== id));
+      const sampleCards = await generateSampleCards(10);
+      setCards([...cards, ...sampleCards]);
+      alert('10 sample cards have been generated successfully!');
     } catch (error) {
-      console.error('Error deleting card:', error);
+      console.error('Error generating sample cards:', error);
+      alert('Failed to generate sample cards. Please try again.');
+    } finally {
+      setGeneratingSamples(false);
     }
   };
 
@@ -189,9 +230,19 @@ const App: React.FC = () => {
     return items;
   };
 
-  // If not authenticated, show login screen
+  // If not authenticated, show login or registration screen
   if (!authenticated) {
-    return <Login onLoginSuccess={handleLoginSuccess} />;
+    return showRegister ? (
+      <Register 
+        onRegisterSuccess={handleRegisterSuccess} 
+        onSwitchToLogin={handleSwitchToLogin} 
+      />
+    ) : (
+      <Login 
+        onLoginSuccess={handleLoginSuccess} 
+        onSwitchToRegister={handleSwitchToRegister} 
+      />
+    );
   }
 
   return (
@@ -215,7 +266,31 @@ const App: React.FC = () => {
                 )}
               </SearchContainer>
             </Col>
-            <Col md={4} className="d-flex justify-content-end align-items-start">
+            <Col md={4} className="d-flex justify-content-end align-items-start gap-2">
+              <Button 
+                variant="success" 
+                onClick={handleGenerateSampleCards}
+                disabled={generatingSamples}
+              >
+                {generatingSamples ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      className="me-2"
+                    />
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <PlusCircleFill className="me-2" />
+                    Add 10 Sample Cards
+                  </>
+                )}
+              </Button>
               <Button variant="primary" onClick={handleShowModal}>
                 Create New Card
               </Button>
@@ -243,7 +318,8 @@ const App: React.FC = () => {
                         title={card.title}
                         description={card.description}
                         status={card.status}
-                        onDelete={() => handleDeleteCard(card._id)}
+                        onDelete={() => handleCardDelete(card._id)}
+                        onUpdate={handleCardUpdate}
                       />
                     </Col>
                   ))}
@@ -287,6 +363,17 @@ const App: React.FC = () => {
                 required
               />
             </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Status</Form.Label>
+              <Form.Select
+                value={newCardStatus}
+                onChange={(e) => setNewCardStatus(e.target.value)}
+              >
+                <option value="todo">To Do</option>
+                <option value="in-progress">In Progress</option>
+                <option value="done">Done</option>
+              </Form.Select>
+            </Form.Group>
             <div className="d-flex justify-content-end">
               <Button variant="secondary" onClick={handleCloseModal} className="me-2">
                 Cancel
@@ -316,6 +403,6 @@ const App: React.FC = () => {
       <Footer />
     </AppContainer>
   );
-};
+}
 
 export default App;

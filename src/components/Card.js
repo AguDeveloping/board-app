@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Card as BootstrapCard, Button, Modal, Form, Spinner } from 'react-bootstrap';
 import styled from 'styled-components';
-import { updateCard, deleteCard } from '../services/api';
 
 const StyledCard = styled(BootstrapCard)`
   height: 100%;
@@ -80,22 +79,21 @@ const Card = ({ id, title, description, status, onDelete, onUpdate }) => {
 
   const handleShowModal = () => setShowEditModal(true);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitting(true);
 
     try {
-      const updatedCard = await updateCard(id, {
-        title: editTitle,
-        description: editDescription,
-        status: editStatus,
-      });
-      
       if (onUpdate) {
-        onUpdate(updatedCard);
-      } else {
-        // If no onUpdate callback is provided, reload the page
-        window.location.reload();
+        // Create an updated card object to pass to the parent component
+        const updatedCardData = {
+          _id: id,
+          title: editTitle,
+          description: editDescription,
+          status: editStatus,
+        };
+        
+        onUpdate(updatedCardData);
       }
       
       handleCloseModal();
@@ -106,14 +104,9 @@ const Card = ({ id, title, description, status, onDelete, onUpdate }) => {
     }
   };
 
-  const handleDelete = async () => {
-    try {
-      await deleteCard(id);
-      if (onDelete) {
-        onDelete(id);
-      }
-    } catch (error) {
-      console.error('Error deleting card:', error);
+  const handleDelete = () => {
+    if (onDelete) {
+      onDelete(id);
     }
   };
 

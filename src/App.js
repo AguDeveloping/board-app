@@ -7,7 +7,7 @@ import Footer from './components/Footer';
 import Card from './components/Card';
 import Login from './components/Login';
 import Register from './components/Register';
-import { fetchCards, createCard, deleteCard } from './services/api';
+import { fetchCards, createCard, updateCard, deleteCard } from './services/api';
 import { isAuthenticated, logout, getUser } from './services/auth';
 import { generateSampleCards } from './utils/sampleCards';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -143,8 +143,15 @@ function App() {
   };
 
   // Handle card update
-  const handleCardUpdate = (updatedCard) => {
-    setCards(cards.map(card => card._id === updatedCard._id ? updatedCard : card));
+  const handleCardUpdate = async (updatedCardData) => {
+    try {
+      const { _id, title, description, status } = updatedCardData;
+      const updatedCard = await updateCard(_id, { title, description, status });
+      setCards(cards.map(card => card._id === updatedCard._id ? updatedCard : card));
+    } catch (error) {
+      console.error('Error updating card:', error);
+      alert('Failed to update card. Please try again.');
+    }
   };
 
   // Handle card deletion

@@ -11,6 +11,7 @@
   },
   "main": "./src/index.tsx",
   "scripts": {
+    "dev": "set PORT=3001 && nodemon --watch ./src/* --exec react-scripts start",
     "start": "set PORT=3001 && react-scripts start",
     "build": "react-scripts build eslint-disable-next-line",
     "test": "react-scripts test",
@@ -56,5 +57,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }

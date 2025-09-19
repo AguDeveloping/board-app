@@ -1,0 +1,11 @@
+.layout-main {
+  flex: 4;
+  border: 1px solid purple;
+  padding: 16px;
+  padding-top: 20px;
+  margin: 6px;
+  border-radius: 6px;
+}
+.main-item {
+  padding: 10px;
+}

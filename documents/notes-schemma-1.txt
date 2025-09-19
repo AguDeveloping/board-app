@@ -1,0 +1,45 @@
+    Card
+        _id
+        type            [project, card]
+        userAuthor      idUser
+        userAssigned    idUser
+        idProject   
+        idParent?
+        levelProject?   [0-9]
+        title           ""
+        status          [todo, in progress, done]
+        priority        [0-4]
+        
+        dueDate?    
+        createdAt
+        updatedAt
+
+    User
+        _id
+        username
+        email
+        password
+        role
+        createdAt     Date
+        updatedAt     Date
+
+---------------------------------------------------------------------------
+Selector views:
+All
+Project
+Stats
+
+
+
+---------------------------------------------------------------------------
+
+> project
+    A
+    B               Title: project name.                Total cards: 10
+                    ---------------------------------------------------
+> stats               todo             in progress            done    
+    todo
+    in progress
+    done
+
+    due dates

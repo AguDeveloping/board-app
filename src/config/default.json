@@ -1,0 +1,11 @@
+{
+    "app": {
+        "name": "Board App"
+    },
+    "pagination": {
+        "cardsPerPage": 6
+    },
+    "api": {
+        "baseUrl": "/api"
+    }
+}

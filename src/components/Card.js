@@ -1,6 +1,13 @@
-import React, { useState } from 'react';
-import { Card as BootstrapCard, Button, Modal, Form, Spinner } from 'react-bootstrap';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import {
+  Card as BootstrapCard,
+  Button,
+  Modal,
+  Form,
+  Spinner,
+} from "react-bootstrap";
+import styled from "styled-components";
+import "./Card.css";
 
 const StyledCard = styled(BootstrapCard)`
   height: 100%;
@@ -31,26 +38,26 @@ const CardStatus = styled.span`
   margin-bottom: 1rem;
   background-color: ${({ status }) => {
     switch (status) {
-      case 'todo':
-        return '#e9ecef';
-      case 'in-progress':
-        return '#cff4fc';
-      case 'done':
-        return '#d1e7dd';
+      case "todo":
+        return "#e9ecef";
+      case "in-progress":
+        return "#cff4fc";
+      case "done":
+        return "#d1e7dd";
       default:
-        return '#e9ecef';
+        return "#e9ecef";
     }
   }};
   color: ${({ status }) => {
     switch (status) {
-      case 'todo':
-        return '#495057';
-      case 'in-progress':
-        return '#055160';
-      case 'done':
-        return '#0f5132';
+      case "todo":
+        return "#495057";
+      case "in-progress":
+        return "#055160";
+      case "done":
+        return "#0f5132";
       default:
-        return '#495057';
+        return "#495057";
     }
   }};
 `;
@@ -92,13 +99,13 @@ const Card = ({ id, title, description, status, onDelete, onUpdate }) => {
           description: editDescription,
           status: editStatus,
         };
-        
+
         onUpdate(updatedCardData);
       }
-      
+
       handleCloseModal();
     } catch (error) {
-      console.error('Error updating card:', error);
+      console.error("Error updating card:", error);
     } finally {
       setSubmitting(false);
     }
@@ -112,12 +119,12 @@ const Card = ({ id, title, description, status, onDelete, onUpdate }) => {
 
   const getStatusLabel = (status) => {
     switch (status) {
-      case 'todo':
-        return 'To Do';
-      case 'in-progress':
-        return 'In Progress';
-      case 'done':
-        return 'Done';
+      case "todo":
+        return "To Do";
+      case "in-progress":
+        return "In Progress";
+      case "done":
+        return "Done";
       default:
         return status;
     }
@@ -125,13 +132,18 @@ const Card = ({ id, title, description, status, onDelete, onUpdate }) => {
 
   return (
     <>
-      <StyledCard>
-        <BootstrapCard.Body className="d-flex flex-column">
+      <StyledCard className="card-title">
+        <div className="box-with-style ">Project CARD</div>
+        <BootstrapCard.Body className="d-flex flex-column card-title">
           <CardStatus status={status}>{getStatusLabel(status)}</CardStatus>
-          <CardTitle>{title}</CardTitle>
+          <CardTitle className="card-title">{title}</CardTitle>
           <CardDescription>{description}</CardDescription>
           <CardActions>
-            <Button variant="outline-primary" size="sm" onClick={handleShowModal}>
+            <Button
+              variant="outline-primary"
+              size="sm"
+              onClick={handleShowModal}
+            >
               Edit
             </Button>
             <Button variant="outline-danger" size="sm" onClick={handleDelete}>
@@ -178,7 +190,11 @@ const Card = ({ id, title, description, status, onDelete, onUpdate }) => {
               </Form.Select>
             </Form.Group>
             <div className="d-flex justify-content-end">
-              <Button variant="secondary" onClick={handleCloseModal} className="me-2">
+              <Button
+                variant="secondary"
+                onClick={handleCloseModal}
+                className="me-2"
+              >
                 Cancel
               </Button>
               <Button variant="primary" type="submit" disabled={submitting}>
@@ -195,7 +211,7 @@ const Card = ({ id, title, description, status, onDelete, onUpdate }) => {
                     Saving...
                   </>
                 ) : (
-                  'Save Changes'
+                  "Save Changes"
                 )}
               </Button>
             </div>

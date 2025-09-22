@@ -18,8 +18,9 @@ import PaginationContainer from "../App/PaginationContainer";
 import "./BodyMainAll.css";
 
 const BodyMainAll = ({
-  searchTerm,
-  triggerLoadCards,
+  searchTerm = "",
+  setSearchTerm,
+  triggerLoadCards = false,
   setTriggerLoadCards,
   setTotalFilteredCards,
 }) => {
@@ -42,6 +43,12 @@ const BodyMainAll = ({
       setLoading(false);
     }
   };
+
+  // Load cards on component mount
+  useEffect(() => {
+    loadCards();
+    setSearchTerm("");
+  }, []);
 
   // Filter cards based on search term
   useEffect(() => {

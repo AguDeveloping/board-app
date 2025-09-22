@@ -22,6 +22,7 @@ function App() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [totalFilteredCards, setTotalFilteredCards] = useState(0);
+  const [searchProject, setSearchProject] = useState("");
 
   const [showRegister, setShowRegister] = useState(false); // Toggle between login and register
 
@@ -155,12 +156,18 @@ function App() {
             {viewCard === viewsCards[0] ? (
               <BodyMainAll
                 searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
                 triggerLoadCards={triggerLoadCards}
                 setTriggerLoadCards={setTriggerLoadCards}
                 setTotalFilteredCards={setTotalFilteredCards}
               />
             ) : viewCard === viewsCards[1] ? (
-              <BodyMainProject />
+              <BodyMainProject
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                searchProject={searchProject}
+                setTotalFilteredCards={setTotalFilteredCards}
+              />
             ) : viewCard === viewsCards[2] ? (
               <div className="layout-main">
                 <h2 className="text-center my-5">Stats View Coming Soon!</h2>

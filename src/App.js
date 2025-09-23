@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { isAuthenticated, logout, getUser } from "./services/auth";
 import viewsCards from "./utils/viewsCards";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
@@ -15,6 +16,7 @@ import BodyHeadAll from "./components/Head/BodyHeadAll";
 import BodyMainAll from "./components/Main/BodyMainAll";
 import AppContainer from "./components/App/AppContainer";
 import MainContent from "./components/App/MainContent";
+import BodyMainStat from "./components/Main/BodyMainStat";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(isAuthenticated());
@@ -169,9 +171,7 @@ function App() {
                 setTotalFilteredCards={setTotalFilteredCards}
               />
             ) : viewCard === viewsCards[2] ? (
-              <div className="layout-main">
-                <h2 className="text-center my-5">Stats View Coming Soon!</h2>
-              </div>
+                <BodyMainStat />
             ) : (
               <div className="layout-main">
                 <h2 className="text-center my-5">

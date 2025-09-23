@@ -68,9 +68,6 @@ const BodyMainProject = ({
   }, [filteredCards, setTotalFilteredCards]);
 
   return (
-    // <div className="layout-main">
-    //   <h2 className="text-center my-5">Projects View Coming Soon!</h2>
-    // </div>
     <Col className="layout-main">
       {loading ? (
         <div className="text-center my-5">

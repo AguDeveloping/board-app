@@ -58,7 +58,6 @@ const BodyMainProject = ({
           card.description.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredCards(filtered);
-      
     }
   }, [searchTerm, cards]);
 
@@ -68,7 +67,7 @@ const BodyMainProject = ({
   }, [filteredCards, setTotalFilteredCards]);
 
   return (
-    <Col className="layout-main">
+    <>
       {loading ? (
         <div className="text-center my-5">
           <Spinner animation="border" role="status">
@@ -87,7 +86,7 @@ const BodyMainProject = ({
               </p>
             </div>
           ) : (
-            <Row>
+            <Row className="project-columns">
               <Col>
                 <h4 className="text-center my-2">To Do</h4>
                 <Col className="project-column-scroll">
@@ -152,7 +151,7 @@ const BodyMainProject = ({
           )}
         </>
       )}
-    </Col>
+    </>
   );
 };
 

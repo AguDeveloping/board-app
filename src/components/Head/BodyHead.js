@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Row, Col, Button, Form, Spinner, Badge, Modal } from "react-bootstrap";
 import { PlusCircleFill } from "react-bootstrap-icons";
 import { createCard } from "../../services/api";
-import { generateSampleCards } from "../../utils/sampleCards";
+import config from "../../config";
+
+import "./BodyHead.css";
 
 import SearchContainer from "../App/SearchContainer";
 import ClearButton from "../App/ClearButton";
-
-import "./BodyHeadAll.css";
 
 const BodyHeadAll = ({
   searchTerm,
@@ -21,7 +21,21 @@ const BodyHeadAll = ({
   const [newCardStatus, setNewCardStatus] = useState("todo");
   const [submitting, setSubmitting] = useState(false);
 
-  const [generatingSamples, setGeneratingSamples] = useState(false);
+  const [statusFilters, setStatusFilters] = useState({
+    todo: true,
+    doing: true,
+    done: true,
+  });
+
+  const handleStatusChange = (e) => {
+    const { name, checked } = e.target;
+    setStatusFilters((prev) => ({
+      ...prev,
+      [name]: checked,
+    }));
+  };
+
+  const developmentModeEnabled = config.developmentMode?.enabled || false;
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -63,23 +77,8 @@ const BodyHeadAll = ({
     setNewCardDescription("");
   };
 
-  // Handle sample card generation
-  const handleGenerateSampleCards = async () => {
-    setGeneratingSamples(true);
-    try {
-      await generateSampleCards(10);
-      setTriggerLoadCards(true);
-      alert("10 sample cards have been generated successfully!");
-    } catch (error) {
-      console.error("Error generating sample cards:", error);
-      alert("Failed to generate sample cards. Please try again.");
-    } finally {
-      setGeneratingSamples(false);
-    }
-  };
-
   return (
-    <Col className="layout-main">
+    <Col className={`layout-main${developmentModeEnabled ? " dev-mode" : ""}`}>
       <Row className="main-item">
         <Col md={6}>
           <SearchContainer>
@@ -93,44 +92,54 @@ const BodyHeadAll = ({
               <ClearButton onClick={handleClearSearch}>✕</ClearButton>
             )}
           </SearchContainer>
+          {/* Checkboxes for status filters */}
+          <Form className="mt-2">
+            <div className="d-flex gap-4">
+              <Form.Check
+                type="checkbox"
+                label="Todo"
+                name="todo"
+                checked={statusFilters.todo}
+                onChange={handleStatusChange}
+              />
+              <Form.Check
+                type="checkbox"
+                label="Doing"
+                name="doing"
+                checked={statusFilters.doing}
+                onChange={handleStatusChange}
+              />
+              <Form.Check
+                type="checkbox"
+                label="Done"
+                name="done"
+                checked={statusFilters.done}
+                onChange={handleStatusChange}
+              />
+            </div>
+          </Form>
         </Col>
         <Col
           md={6}
-          className="d-flex justify-content-end align-items-start gap-2"
+          className="d-flex justify-content-end align-items-start gap-4"
         >
-          <Button
-            variant="success"
-            onClick={handleGenerateSampleCards}
-            disabled={generatingSamples}
-          >
-            {generatingSamples ? (
-              <>
-                <Spinner
-                  as="span"
-                  animation="border"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                  className="me-2"
-                />
-                Generating...
-              </>
-            ) : (
-              <>
-                <PlusCircleFill className="me-2" />
-                Add 10 Sample Cards
-              </>
-            )}
+          <Button variant="primary" /* onClick={handleShowModal}*/ disabled>
+            <PlusCircleFill className="me-2 mb-1" />
+            Create New Project
           </Button>
           <Button variant="primary" onClick={handleShowModal}>
+            <PlusCircleFill className="me-2 mb-1" />
             Create New Card
           </Button>
         </Col>
       </Row>
-      <Row className="main-item m-0 p-0">
-        <Col className="m-0 p-0">
+      <Row className="main-item m-0 p-0 me-3 mt-3 justify-content-end">
+        <Col xs="auto" className="m-0 p-0 fs-5">
           <p className="m-0 p-0 ps-3">
-            Total Cards: <Badge bg="secondary">{totalFilteredCards}</Badge>
+            Total Cards{" "}
+            <Badge className="p-3 fs-6" bg="secondary">
+              {totalFilteredCards}
+            </Badge>
           </p>
         </Col>
       </Row>

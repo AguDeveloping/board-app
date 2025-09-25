@@ -1,14 +1,9 @@
-.body-main-project {
-    font-style: italic;
-}
-
 .project-column-scroll {
-  min-height: 690px;
-  max-height: 690px;
+  max-height: 610px;
   overflow-y: auto;
 }
 
 .vertical-card {
-    height: 300px;
-    margin-bottom: 10px;
+  height: 300px;
+  margin-bottom: 10px;
 }

@@ -24,8 +24,7 @@ ChartJS.register(
 
 const BodyMainStat = () => {
   return (
-    // <Col className="layout-main-stat">
-    <Col className="layout-main layout-main-stat">
+    <div className="layout-main-stat">
       <Row>
         <Col>
           <StatCard title="Total Cards" value={50} bg="light" />
@@ -110,7 +109,7 @@ const BodyMainStat = () => {
           </div>
         </Col>
       </Row>
-    </Col>
+    </div>
   );
 };
 export default BodyMainStat;

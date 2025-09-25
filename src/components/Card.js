@@ -133,7 +133,7 @@ const Card = ({ id, title, description, status, onDelete, onUpdate }) => {
   return (
     <>
       <StyledCard className="card-title">
-        <div className="box-with-style ">Project CARD</div>
+        <div className="box-with-style ">PROJECT / CARD</div>
         <BootstrapCard.Body className="d-flex flex-column card-title">
           <CardStatus status={status}>{getStatusLabel(status)}</CardStatus>
           <CardTitle className="card-title">{title}</CardTitle>

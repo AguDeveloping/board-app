@@ -1,22 +1,21 @@
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import { isAuthenticated, logout, getUser } from "./services/auth";
 import viewsCards from "./utils/viewsCards";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
+import AppContainer from "./components/App/AppContainer";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import BodyMainProject from "./components/Main/BodyMainProject";
-// import BodyHeadProject from "./components/Head/BodyHeadProject";
-import BodyHeadAll from "./components/Head/BodyHeadAll";
-import BodyMainAll from "./components/Main/BodyMainAll";
-import AppContainer from "./components/App/AppContainer";
 import MainContent from "./components/App/MainContent";
-import BodyMainStat from "./components/Main/BodyMainStat";
+import BodyMain from "./components/Main/BodyMain";
+import SideMain from "./components/Main/SideMain";
+import BodyHead from "./components/Head/BodyHead";
+import SideHead from "./components/Head/SideHead";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(isAuthenticated());
@@ -93,43 +92,12 @@ function App() {
       <Header username={user?.username} onLogout={handleLogout} />
 
       <MainContent>
-        {/* Sidebar and Main Content Layout */}
+        {/* Head - Upper container: Sidebar and Main Content Layout */}
         <Container className="layout-page-container">
           <Row className="layout-body">
-            <Col className="layout-sidebar">
-              <Row className="sidebar-item">
-                <h5 className="text-center">views</h5>
-                <Button
-                  variant="outline-primary"
-                  active={viewCard === viewsCards[0]}
-                  onClick={() => {
-                    setViewCard(viewsCards[0]);
-                  }}
-                >
-                  ALL
-                </Button>
-                <Button
-                  variant="outline-success"
-                  active={viewCard === viewsCards[1]}
-                  onClick={() => {
-                    setViewCard(viewsCards[1]);
-                  }}
-                >
-                  Projects
-                </Button>
-                <Button
-                  variant="outline-warning"
-                  active={viewCard === viewsCards[2]}
-                  onClick={() => {
-                    setViewCard(viewsCards[2]);
-                  }}
-                >
-                  Stats
-                </Button>
-              </Row>
-            </Col>
+            <SideHead viewCard={viewCard} setViewCard={setViewCard} />
 
-            <BodyHeadAll
+            <BodyHead
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
               setTriggerLoadCards={setTriggerLoadCards}
@@ -138,47 +106,23 @@ function App() {
           </Row>
         </Container>
 
-        {/* New layout sidebar and main content  */}
+        {/* Main - Lower container: Sidebar and Main Content Layout */}
         <Container className="layout-page-container">
           <Row className="layout-body">
-            <Col className="layout-sidebar">
-              <Row className="sidebar-item">
-                <h5 className="text-center">modes</h5>
-              </Row>
-              {viewCard === viewsCards[0] ? (
-                <Row className="sidebar-item">All Cards View</Row>
-              ) : viewCard === viewsCards[1] ? (
-                <Row className="sidebar-item">Projects View</Row>
-              ) : viewCard === viewsCards[2] ? (
-                <Row className="sidebar-item">Stats View</Row>
-              ) : (
-                <Row className="sidebar-item">Click a select mode</Row>
-              )}
-            </Col>
-            {viewCard === viewsCards[0] ? (
-              <BodyMainAll
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-                triggerLoadCards={triggerLoadCards}
-                setTriggerLoadCards={setTriggerLoadCards}
-                setTotalFilteredCards={setTotalFilteredCards}
-              />
-            ) : viewCard === viewsCards[1] ? (
-              <BodyMainProject
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-                searchProject={searchProject}
-                setTotalFilteredCards={setTotalFilteredCards}
-              />
-            ) : viewCard === viewsCards[2] ? (
-                <BodyMainStat />
-            ) : (
-              <div className="layout-main">
-                <h2 className="text-center my-5">
-                  Select a mode to view cards.
-                </h2>
-              </div>
-            )}
+            <SideMain
+              viewCard={viewCard}
+              setTriggerLoadCards={setTriggerLoadCards}
+            />
+            <BodyMain
+              viewCard={viewCard}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              triggerLoadCards={triggerLoadCards}
+              setTriggerLoadCards={setTriggerLoadCards}
+              setTotalFilteredCards={setTotalFilteredCards}
+              searchProject={searchProject}
+              setSearchProject={setSearchProject}
+            />
           </Row>
         </Container>
       </MainContent>

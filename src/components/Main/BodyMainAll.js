@@ -1,21 +1,12 @@
 import { useState, useEffect } from "react";
-import {
-  Row,
-  Col,
-  Pagination,
-  Spinner,
-} from "react-bootstrap";
-import {
-  fetchCards,
-  updateCard,
-  deleteCard,
-} from "../../services/api";
+import { Row, Col, Pagination, Spinner } from "react-bootstrap";
+import { fetchCards, updateCard, deleteCard } from "../../services/api";
 import config from "../../config";
+
+import "./BodyMainAll.css";
 
 import Card from "../Card";
 import PaginationContainer from "../App/PaginationContainer";
-
-import "./BodyMainAll.css";
 
 const BodyMainAll = ({
   searchTerm = "",
@@ -102,7 +93,6 @@ const BodyMainAll = ({
     }
   };
 
-  // const cardsPerPage = config.get("pagination.cardsPerPage");
   const cardsPerPage = config.pagination.cardsPerPage;
 
   // Pagination logic
@@ -134,7 +124,7 @@ const BodyMainAll = ({
   };
 
   return (
-    <Col className="layout-main">
+    <>
       {loading ? (
         <div className="text-center my-5">
           <Spinner animation="border" role="status">
@@ -155,7 +145,7 @@ const BodyMainAll = ({
           ) : (
             <Row>
               {currentCards.map((card) => (
-                <Col key={card._id} sm={12} md={6} lg={4} className="mb-4">
+                <Col key={card._id} sm={12} md={6} lg={4} className="mb-2">
                   <Card
                     id={card._id}
                     title={card.title}
@@ -176,7 +166,7 @@ const BodyMainAll = ({
           )}
         </>
       )}
-    </Col>
+    </>
   );
 };
 

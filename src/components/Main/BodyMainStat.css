@@ -1,0 +1,28 @@
+.layout-main-stat {
+    height: 660px;
+}
+
+.raw-stats {
+    margin-top: 20px;
+    padding-left: 20px;
+}
+
+.stats-low-columns {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    height: 300px;
+}
+
+.chart-container {
+    margin-top: 20px;
+    padding-left: 20px;
+    height: 300px;
+    width: 440px;
+}

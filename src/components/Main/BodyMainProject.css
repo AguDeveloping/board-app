@@ -1,0 +1,9 @@
+.project-column-scroll {
+  max-height: 610px;
+  overflow-y: auto;
+}
+
+.vertical-card {
+  height: 300px;
+  margin-bottom: 10px;
+}

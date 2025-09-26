@@ -14,14 +14,14 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  min-height: 100vh;
   font-size: calc(10px + 2vmin);
   color: white;
+  background-color: #282c34;
 }
 
 .App-link {
@@ -35,4 +35,55 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.layout-page-container {
+  margin-bottom: 10px;
+  border: 2px solid grey;
+  border-radius: 6px;
+}
+
+.layout-body {
+  display: flex;
+  flex-direction: row;
+  border: 2px solid darkgrey;
+  border-radius: 6px;
+}
+
+.layout-sidebar {
+  flex: 1;
+  margin: 6px;
+  padding: 6px;
+}
+.layout-sidebar.dev-mode {
+  border: 1px solid blue;
+  border-radius: 6px;
+}
+
+.sidebar-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 10px;
+  padding-top: 0px;
+}
+
+.layout-main {
+  flex: 4;
+  margin: 6px;
+  padding: 16px;
+  padding-top: 20px;
+}
+.layout-main.dev-mode {
+  border: 1px solid purple;
+  border-radius: 6px;
+}
+
+.main-item {
+  padding: 10px;
+}
+.button-sidebar {
+  display: block;
+  margin:10px;
+  padding: 10px;
 }

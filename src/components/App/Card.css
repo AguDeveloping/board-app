@@ -1,0 +1,19 @@
+.card-title {
+  font-size: 100%;
+}
+
+.box-with-style {
+  display: block;
+  /* border: 3px solid orange; */
+  border: 3px solid darkgray;
+  text-align: center;
+  text-decoration: underline;
+  margin: 10px;
+  margin-top: 10px;
+  padding: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  font-style: italic;
+  border-radius: 6px;
+  color: darkslategray;
+}

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Form, Button, Card, Container, Alert, Spinner } from 'react-bootstrap';
+import { PersonPlusFill } from 'react-bootstrap-icons';
 import styled from 'styled-components';
-import { login } from '../services/auth';
+import { register } from '../../services/auth';
 
-const LoginContainer = styled(Container)`
+const RegisterContainer = styled(Container)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,7 +12,7 @@ const LoginContainer = styled(Container)`
   background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
 `;
 
-const LoginCard = styled(Card)`
+const RegisterCard = styled(Card)`
   width: 100%;
   max-width: 450px;
   border-radius: 10px;
@@ -56,25 +57,34 @@ const ToggleLink = styled.button`
   }
 `;
 
-const Login = ({ onLoginSuccess, onSwitchToRegister }) => {
+const Register = ({ onRegisterSuccess, onSwitchToLogin }) => {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate form
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    
     setError(null);
     setLoading(true);
 
     try {
-      await login(username, password);
-      onLoginSuccess();
+      await register(username, email, password);
+      onRegisterSuccess();
     } catch (err) {
-      console.error('Login error:', err);
+      console.error('Registration error:', err);
       setError(
         err.response?.data?.message ||
-        'Login failed. Please check your credentials and try again.'
+        'Registration failed. Please try again with different credentials.'
       );
     } finally {
       setLoading(false);
@@ -82,11 +92,11 @@ const Login = ({ onLoginSuccess, onSwitchToRegister }) => {
   };
 
   return (
-    <LoginContainer fluid>
-      <LoginCard>
+    <RegisterContainer fluid>
+      <RegisterCard>
         <CardHeader>
-          <CardTitle>Card Board App</CardTitle>
-          <CardSubtitle>Sign in to manage your cards</CardSubtitle>
+          <CardTitle>Create Account</CardTitle>
+          <CardSubtitle>Sign up to manage your cards</CardSubtitle>
         </CardHeader>
         <CardBody>
           {error && <Alert variant="danger">{error}</Alert>}
@@ -95,7 +105,7 @@ const Login = ({ onLoginSuccess, onSwitchToRegister }) => {
               <Form.Label>Username</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter your username"
+                placeholder="Choose a username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
@@ -103,13 +113,37 @@ const Login = ({ onLoginSuccess, onSwitchToRegister }) => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-4">
+            <Form.Group className="mb-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={loading}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="Enter your password"
+                placeholder="Create a password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
+                disabled={loading}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-4">
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 required
                 disabled={loading}
               />
@@ -119,7 +153,7 @@ const Login = ({ onLoginSuccess, onSwitchToRegister }) => {
               variant="primary" 
               type="submit" 
               disabled={loading}
-              className="w-100 py-2"
+              className="w-100 py-2 fw-bold"
             >
               {loading ? (
                 <>
@@ -131,28 +165,28 @@ const Login = ({ onLoginSuccess, onSwitchToRegister }) => {
                     aria-hidden="true"
                     className="me-2"
                   />
-                  Signing in...
+                  Registering...
                 </>
               ) : (
-                'Sign In'
+                <>
+                  <PersonPlusFill className="me-2" />
+                  Create Account
+                </>
               )}
             </Button>
           </Form>
           <div className="text-center mt-4">
-            <p className="mb-2">
-              Don't have an account?{' '}
-              <ToggleLink onClick={onSwitchToRegister}>
-                Sign up now
+            <p className="mb-0">
+              Already have an account?{' '}
+              <ToggleLink onClick={onSwitchToLogin}>
+                Sign in
               </ToggleLink>
             </p>
-            <small className="text-muted">
-              Default credentials: admin / admin123
-            </small>
           </div>
         </CardBody>
-      </LoginCard>
-    </LoginContainer>
+      </RegisterCard>
+    </RegisterContainer>
   );
 };
 
-export default Login;
+export default Register;

@@ -9,7 +9,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import StatCard from "../StatCard";
+import StatCard from "../App/StatCard";
 
 import "./BodyMainStat.css";
 

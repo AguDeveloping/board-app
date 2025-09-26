@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Col, Row, Spinner } from "react-bootstrap";
+import { Badge, Button, Col, Row, Spinner } from "react-bootstrap";
 import viewsCards from "../../utils/viewsCards";
 import { PlusCircleFill } from "react-bootstrap-icons";
 import { generateSampleCards } from "../../utils/sampleCards";
@@ -31,18 +31,31 @@ function SideMain({ viewCard, setTriggerLoadCards }) {
         developmentModeEnabled ? " dev-mode" : ""
       } d-flex flex-column`}
     >
-      <Row className="sidebar-item">
-        <h5 className="text-center">mode</h5>
+      <Row className="sidebar-item mt-2 mb-0 pt-0 pb-0 align-items-center">
+        <Col xs={4} className="text-end">
+          <h5 className="mb-0">mode</h5>
+        </Col>
+        <Col xs={8}>
+          {viewCard === viewsCards[0] ? (
+            <Badge className="p-3 fs-6 w-100 fw-normal" bg="secondary">
+              All Cards
+            </Badge>
+          ) : viewCard === viewsCards[1] ? (
+            <Badge className="p-3 fs-6 w-100 fw-normal" bg="secondary">
+              Projects View
+            </Badge>
+          ) : viewCard === viewsCards[2] ? (
+            <Badge className="p-3 fs-6 w-100 fw-normal" bg="secondary">
+              Stats View
+            </Badge>
+          ) : (
+            <Badge className="p-3 fs-6 w-100 fw-normal" bg="secondary">
+              Click a view
+            </Badge>
+          )}
+        </Col>
       </Row>
-      {viewCard === viewsCards[0] ? (
-        <Row className="sidebar-item">All Cards View</Row>
-      ) : viewCard === viewsCards[1] ? (
-        <Row className="sidebar-item">Projects View</Row>
-      ) : viewCard === viewsCards[2] ? (
-        <Row className="sidebar-item">Stats View</Row>
-      ) : (
-        <Row className="sidebar-item">Click a select mode</Row>
-      )}
+
       <hr />
       <Row className="sidebar-item">
         {/* Input selector project */}

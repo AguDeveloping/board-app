@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
 import { fetchCards } from "../../services/api";
 
-import Card from "../Card";
+import Card from "../App/Card";
 
 import "./BodyMainProject.css";
 

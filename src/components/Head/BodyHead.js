@@ -93,7 +93,7 @@ const BodyHeadAll = ({
             )}
           </SearchContainer>
           {/* Checkboxes for status filters */}
-          <Form className="mt-2">
+          <Form className="mt-2 ms-1">
             <div className="d-flex gap-4">
               <Form.Check
                 type="checkbox"

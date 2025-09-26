@@ -5,7 +5,7 @@ import config from "../../config";
 
 import "./BodyMainAll.css";
 
-import Card from "../Card";
+import Card from "../App/Card";
 import PaginationContainer from "../App/PaginationContainer";
 
 const BodyMainAll = ({

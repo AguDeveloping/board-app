@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3.2 (Python 3.12.0 on win32)" generated="2025-10-04T13:18:08.845192" rpa="true" schemaversion="5">
+<suite id="s1" name="Startup" source="C:\NODE-WINDSURF\board-app\robot\startup.robot">
+<test id="s1-t1" name="Start React App And Open In Browser" line="17">
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-10-04T13:18:09.142875" level="INFO">Starting Board App automation setup...</msg>
+<arg>Starting Board App automation setup...</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-10-04T13:18:09.142875" elapsed="0.000000"/>
+</kw>
+<kw name="Verify Backend Server Is Running">
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-10-04T13:18:09.144033" level="INFO">Checking if backend server is running on http://localhost:3000...</msg>
+<arg>Checking if backend server is running on ${BACKEND_URL}...</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-10-04T13:18:09.144033" elapsed="0.000000"/>
+</kw>
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2025-10-04T13:18:09.144610" level="INFO">Creating Session using : alias=backend_session, url=http://localhost:3000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<msg time="2025-10-04T13:18:09.144610" level="DEBUG">Creating session: backend_session</msg>
+<arg>backend_session</arg>
+<arg>${BACKEND_URL}</arg>
+<arg>verify=False</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2025-10-04T13:18:09.144033" elapsed="0.000577"/>
+</kw>
+<kw name="Run Keyword And Return Status" owner="BuiltIn">
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2025-10-04T13:18:09.146401" level="DEBUG">Starting new HTTP connection (1): localhost:3000</msg>
+<msg time="2025-10-04T13:18:09.152505" level="DEBUG">http://localhost:3000 "GET / HTTP/1.1" 200 468</msg>
+<msg time="2025-10-04T13:18:09.152505" level="INFO">GET Request : url=http://localhost:3000/ 
+ path_url=/ 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg time="2025-10-04T13:18:09.152505" level="INFO">GET Response : url=http://localhost:3000/ 
+ status=200, reason=OK 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '468', 'ETag': 'W/"1d4-6nVmxWwe2y9Yz50T+irmRZE3KTY"', 'Date': 'Sat, 04 Oct 2025 16:18:09 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"message":"Card App API is running","endpoints":{"login":"POST /api/auth/login","register":"POST /api/auth/register","profile":"GET /api/auth/profile (requires authentication)","getAllCards":"GET /api/cards (requires authentication)","getCardById":"GET /api/cards/:id (requires authentication)","createCard":"POST /api/cards (requires authentication)","updateCard":"PUT /api/cards/:id (requires authentication)","deleteCard":"DELETE /api/cards/:id (requires admin)"}} 
+ </msg>
+<arg>backend_session</arg>
+<arg>/</arg>
+<arg>expected_status=200</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-10-04T13:18:09.144610" elapsed="0.007895"/>
+</kw>
+<msg time="2025-10-04T13:18:09.152505" level="INFO">${status} = True</msg>
+<var>${status}</var>
+<arg>GET On Session</arg>
+<arg>backend_session</arg>
+<arg>/</arg>
+<arg>expected_status=200</arg>
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<status status="PASS" start="2025-10-04T13:18:09.144610" elapsed="0.007895"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-10-04T13:18:09.152505" level="INFO">✅ Backend server is running and ready on http://localhost:3000</msg>
+<arg>✅ Backend server is running and ready on ${BACKEND_URL}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-10-04T13:18:09.152505" elapsed="0.000000"/>
+</kw>
+<arg>${status}</arg>
+<arg>Log</arg>
+<arg>✅ Backend server is running and ready on ${BACKEND_URL}</arg>
+<arg>ELSE</arg>
+<arg>Fail</arg>
+<arg>❌ Backend server is not running on ${BACKEND_URL}. Please start the backend first.</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2025-10-04T13:18:09.152505" elapsed="0.000000"/>
+</kw>
+<doc>Verifies that the backend server (cards) is already running on port 3000</doc>
+<status status="PASS" start="2025-10-04T13:18:09.143456" elapsed="0.009049"/>
+</kw>
+<kw name="Start Frontend Development Server">
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-10-04T13:18:09.152505" level="INFO">Starting frontend development server on port 3001...</msg>
+<arg>Starting frontend development server on port ${FRONTEND_PORT}...</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-10-04T13:18:09.152505" elapsed="0.000000"/>
+</kw>
+<kw name="Normalize Path" owner="OperatingSystem">
+<msg time="2025-10-04T13:18:09.157359" level="INFO">${project_root} = C:\NODE-WINDSURF\board-app</msg>
+<var>${project_root}</var>
+<arg>C:\\NODE-WINDSURF\\board-app\\robot${/}..</arg>
+<doc>Normalizes the given path.</doc>
+<status status="PASS" start="2025-10-04T13:18:09.152505" elapsed="0.004854"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2025-10-04T13:18:09.158019" level="INFO">${PROJECT_ROOT} = C:\NODE-WINDSURF\board-app</msg>
+<arg>${PROJECT_ROOT}</arg>
+<arg>${project_root}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2025-10-04T13:18:09.157359" elapsed="0.000660"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-10-04T13:18:09.158533" level="INFO">Project root directory: C:\NODE-WINDSURF\board-app</msg>
+<arg>Project root directory: ${project_root}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-10-04T13:18:09.158019" elapsed="0.000514"/>
+</kw>
+<kw name="Start Process" owner="Process">
+<msg time="2025-10-04T13:18:09.158878" level="INFO">Starting process:
+npm run dev</msg>
+<msg time="2025-10-04T13:18:09.158878" level="DEBUG">Process configuration:
+cwd:     C:\NODE-WINDSURF\board-app
+shell:   True
+stdout:  PIPE
+stderr:  PIPE
+stdin:   None
+alias:   frontend_server
+env:     None</msg>
+<msg time="2025-10-04T13:18:09.170359" level="INFO">${process} = &lt;Popen: returncode: None args: 'npm run dev'&gt;</msg>
+<var>${process}</var>
+<arg>npm</arg>
+<arg>run</arg>
+<arg>dev</arg>
+<arg>cwd=${project_root}</arg>
+<arg>shell=True</arg>
+<arg>alias=frontend_server</arg>
+<doc>Starts a new process on background.</doc>
+<status status="PASS" start="2025-10-04T13:18:09.158533" elapsed="0.011826"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2025-10-04T13:18:09.171745" level="INFO">${FRONTEND_PROCESS} = &lt;Popen: returncode: None args: 'npm run dev'&gt;</msg>
+<arg>${FRONTEND_PROCESS}</arg>
+<arg>${process}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2025-10-04T13:18:09.170359" elapsed="0.001386"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-10-04T13:18:09.173933" level="INFO">Frontend server started with process ID: 7272</msg>
+<arg>Frontend server started with process ID: ${process.pid}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-10-04T13:18:09.173069" elapsed="0.000864"/>
+</kw>
+<doc>Starts the frontend dev server (board) in background</doc>
+<status status="PASS" start="2025-10-04T13:18:09.152505" elapsed="0.021428"/>
+</kw>
+<kw name="Wait For Frontend Application To Be Ready">
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-10-04T13:18:09.175714" level="INFO">Waiting for frontend application to be ready on http://localhost:3001...</msg>
+<arg>Waiting for frontend application to be ready on ${FRONTEND_URL}...</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-10-04T13:18:09.174946" elapsed="0.000768"/>
+</kw>
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2025-10-04T13:18:09.177170" level="INFO">Creating Session using : alias=frontend_session, url=http://localhost:3001, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<msg time="2025-10-04T13:18:09.177170" level="DEBUG">Creating session: frontend_session</msg>
+<arg>frontend_session</arg>
+<arg>${FRONTEND_URL}</arg>
+<arg>verify=False</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2025-10-04T13:18:09.176729" elapsed="0.000441"/>
+</kw>
+<for flavor="IN RANGE">
+<iter>
+<kw name="Run Keyword And Return Status" owner="BuiltIn">
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2025-10-04T13:18:09.182282" level="DEBUG">Starting new HTTP connection (1): localhost:3001</msg>
+<msg time="2025-10-04T13:18:11.214222" level="DEBUG">http://localhost:3001 "GET / HTTP/1.1" 200 None</msg>
+<msg time="2025-10-04T13:18:11.214222" level="INFO">GET Request : url=http://localhost:3001/ 
+ path_url=/ 
+ headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg time="2025-10-04T13:18:11.214222" level="INFO">GET Response : url=http://localhost:3001/ 
+ status=200, reason=OK 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': '*', 'Access-Control-Allow-Headers': '*', 'Content-Type': 'text/html; charset=utf-8', 'Accept-Ranges': 'bytes', 'ETag': 'W/"6af-+M4OSPFNZpwKBdFEydrj+1+V5xo"', 'Vary': 'Accept-Encoding', 'Content-Encoding': 'gzip', 'Date': 'Sat, 04 Oct 2025 16:18:11 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5', 'Transfer-Encoding': 'chunked'} 
+ body=&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8" /&gt;
+    &lt;link rel="icon" href="/favicon.ico" /&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;
+    &lt;meta name="theme-color" content="#000000" /&gt;
+    &lt;meta
+      name="description"
+      content="Web site created using create-react-app"
+    /&gt;
+    &lt;link rel="apple-touch-icon" href="/logo192.png" /&gt;
+    &lt;!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    --&gt;
+    &lt;link rel="manifest" href="/manifest.json" /&gt;
+    &lt;!--
+      Notice the use of  in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    --&gt;
+    &lt;title&gt;React App&lt;/title&gt;
+  &lt;script defer src="/static/js/bundle.js"&gt;&lt;/script&gt;&lt;/head&gt;
+  &lt;body&gt;
+    &lt;noscript&gt;You need to enable JavaScript to run this app.&lt;/noscript&gt;
+    &lt;div id="root"&gt;&lt;/div&gt;
+    &lt;!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the &lt;body&gt; tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    --&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+ 
+ </msg>
+<arg>frontend_session</arg>
+<arg>/</arg>
+<arg>expected_status=200</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-10-04T13:18:09.179598" elapsed="2.036586"/>
+</kw>
+<msg time="2025-10-04T13:18:11.216184" level="INFO">${status} = True</msg>
+<var>${status}</var>
+<arg>GET On Session</arg>
+<arg>frontend_session</arg>
+<arg>/</arg>
+<arg>expected_status=200</arg>
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<status status="PASS" start="2025-10-04T13:18:09.179086" elapsed="2.037098"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-10-04T13:18:11.216701" level="INFO">Frontend application is ready after 1 attempts</msg>
+<arg>Frontend application is ready after ${attempt} attempts</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-10-04T13:18:11.216701" elapsed="0.000000"/>
+</kw>
+<arg>${status}</arg>
+<arg>Log</arg>
+<arg>Frontend application is ready after ${attempt} attempts</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2025-10-04T13:18:11.216701" elapsed="0.000000"/>
+</kw>
+<kw name="Exit For Loop If" owner="BuiltIn">
+<msg time="2025-10-04T13:18:11.218703" level="INFO">Exiting for loop altogether.</msg>
+<arg>${status}</arg>
+<doc>Stops executing the enclosing FOR loop if the ``condition`` is true.</doc>
+<status status="PASS" start="2025-10-04T13:18:11.218188" elapsed="0.000515"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<arg>Attempt ${attempt}: Frontend not ready yet, waiting 1 second...</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2025-10-04T13:18:11.218703" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<arg>1s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" start="2025-10-04T13:18:11.218703" elapsed="0.000000"/>
+</kw>
+<var name="${attempt}">1</var>
+<status status="PASS" start="2025-10-04T13:18:09.178702" elapsed="2.040001"/>
+</iter>
+<var>${attempt}</var>
+<value>1</value>
+<value>31</value>
+<status status="PASS" start="2025-10-04T13:18:09.177170" elapsed="2.041533"/>
+</for>
+<kw name="Run Keyword Unless" owner="BuiltIn">
+<msg time="2025-10-04T13:18:11.218703" level="WARN">Keyword 'BuiltIn.Run Keyword Unless' is deprecated. </msg>
+<arg>${status}</arg>
+<arg>Fail</arg>
+<arg>Frontend application failed to start within ${TIMEOUT}</arg>
+<doc>*DEPRECATED since RF 5.0. Use Native IF/ELSE or `Run Keyword If` instead.*</doc>
+<status status="PASS" start="2025-10-04T13:18:11.218703" elapsed="0.002035"/>
+</kw>
+<doc>Waits for the frontend app to be accessible on port 3001</doc>
+<status status="PASS" start="2025-10-04T13:18:09.174582" elapsed="2.046156"/>
+</kw>
+<kw name="Open Frontend Application In Browser">
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-10-04T13:18:11.222328" level="INFO">Opening frontend application in chromium browser...</msg>
+<arg>Opening frontend application in ${BROWSER_TYPE} browser...</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-10-04T13:18:11.222328" elapsed="0.000000"/>
+</kw>
+<kw name="New Browser" owner="Browser">
+<msg time="2025-10-04T13:18:11.222328" level="INFO">{"browser": "chromium", "headless": false, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "C:\\NODE-WINDSURF\\board-app\\robot\\results\\browser\\traces\\temp\\e3ed54fc-5c63-481c-afc7-2cbe12215da0"}</msg>
+<msg time="2025-10-04T13:18:11.298194" level="INFO">Starting Browser process C:\NODE-WINDSURF\board-app\robot\venv\Lib\site-packages\Browser\wrapper\index.js using at 127.0.0.1:61212</msg>
+<msg time="2025-10-04T13:18:13.381657" level="DEBUG">&lt;_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNAVAILABLE: ipv4:127.0.0.1:61212: ConnectEx: Connection refused (No connection could be made because the target machine actively refused it.
+ -- 10061)"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNAVAILABLE: ipv4:127.0.0.1:61212: ConnectEx: Connection refused (No connection could be made because the target machine actively refused it.\r\n -- 10061)"}"
+&gt;</msg>
+<msg time="2025-10-04T13:18:15.531170" level="DEBUG">&lt;_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNAVAILABLE: ipv4:127.0.0.1:61212: ConnectEx: Connection refused (No connection could be made because the target machine actively refused it.
+ -- 10061)"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNAVAILABLE: ipv4:127.0.0.1:61212: ConnectEx: Connection refused (No connection could be made because the target machine actively refused it.\r\n -- 10061)"}"
+&gt;</msg>
+<msg time="2025-10-04T13:18:17.673839" level="DEBUG">&lt;_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNAVAILABLE: ipv4:127.0.0.1:61212: ConnectEx: Connection refused (No connection could be made because the target machine actively refused it.
+ -- 10061)"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"failed to connect to all addresses; last error: UNAVAILABLE: ipv4:127.0.0.1:61212: ConnectEx: Connection refused (No connection could be made because the target machine actively refused it.\r\n -- 10061)", grpc_status:14}"
+&gt;</msg>
+<msg time="2025-10-04T13:18:19.799024" level="DEBUG">&lt;_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNAVAILABLE: ipv4:127.0.0.1:61212: ConnectEx: Connection refused (No connection could be made because the target machine actively refused it.
+ -- 10061)"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_status:14, grpc_message:"failed to connect to all addresses; last error: UNAVAILABLE: ipv4:127.0.0.1:61212: ConnectEx: Connection refused (No connection could be made because the target machine actively refused it.\r\n -- 10061)"}"
+&gt;</msg>
+<msg time="2025-10-04T13:18:22.600565" level="INFO">Successfully created browser with options: {"browser":"chromium","headless":false,"chromiumSandbox":false,"devtools":false,"handleSIGHUP":true,"handleSIGINT":true,"handleSIGTERM":true,"slowMo":0,"timeout":30000,"tracesDir":"C:\\NODE-WINDSURF\\board-app\\robot\\results\\browser\\traces\\temp\\e3ed54fc-5c63-481c-afc7-2cbe12215da0"}</msg>
+<arg>${BROWSER_TYPE}</arg>
+<arg>headless=False</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new playwright Browser with specified options.</doc>
+<status status="PASS" start="2025-10-04T13:18:11.222328" elapsed="11.378237"/>
+</kw>
+<kw name="New Context" owner="Browser">
+<msg time="2025-10-04T13:18:22.600565" level="INFO">{
+  "acceptDownloads": true,
+  "bypassCSP": false,
+  "forcedColors": "none",
+  "ignoreHTTPSErrors": false,
+  "javaScriptEnabled": true,
+  "offline": false,
+  "reducedMotion": "no-preference",
+  "serviceWorkers": "allow",
+  "viewport": {
+    "height": 1080,
+    "width": 1920
+  }
+}</msg>
+<msg time="2025-10-04T13:18:22.612338" level="INFO">Successfully created context. </msg>
+<msg time="2025-10-04T13:18:22.612338" level="INFO">{'acceptDownloads': True, 'bypassCSP': False, 'forcedColors': 'none', 'ignoreHTTPSErrors': False, 'javaScriptEnabled': True, 'offline': False, 'reducedMotion': 'no-preference', 'serviceWorkers': 'allow', 'viewport': {'height': 1080, 'width': 1920}}</msg>
+<arg>viewport={'width': 1920, 'height': 1080}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new BrowserContext with specified options.</doc>
+<status status="PASS" start="2025-10-04T13:18:22.600565" elapsed="0.011773"/>
+</kw>
+<kw name="New Page" owner="Browser">
+<msg time="2025-10-04T13:18:23.580242" level="INFO">Successfully initialized new page object and opened url: http://localhost:3001</msg>
+<msg time="2025-10-04T13:18:23.580242" level="DEBUG">Video is not enabled.</msg>
+<msg time="2025-10-04T13:18:23.580242" level="INFO">${page} = {'page_id': 'page=f232d143-276b-48f5-95bd-ddc72904ddeb', 'video_path': ''}</msg>
+<var>${page}</var>
+<arg>${FRONTEND_URL}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Open a new Page.</doc>
+<status status="PASS" start="2025-10-04T13:18:22.612338" elapsed="0.967904"/>
+</kw>
+<kw name="Set Test Variable" owner="BuiltIn">
+<msg time="2025-10-04T13:18:23.582244" level="INFO">${PAGE} = {'page_id': 'page=f232d143-276b-48f5-95bd-ddc72904ddeb', 'video_path': ''}</msg>
+<arg>${PAGE}</arg>
+<arg>${page}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<status status="PASS" start="2025-10-04T13:18:23.581249" elapsed="0.000995"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-10-04T13:18:23.583243" level="INFO">Browser opened and navigated to http://localhost:3001</msg>
+<arg>Browser opened and navigated to ${FRONTEND_URL}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-10-04T13:18:23.583243" elapsed="0.000991"/>
+</kw>
+<doc>Opens the frontend application in a new browser instance</doc>
+<status status="PASS" start="2025-10-04T13:18:11.220738" elapsed="12.363496"/>
+</kw>
+<kw name="Verify Frontend Application Is Running">
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-10-04T13:18:23.586537" level="INFO">Verifying frontend application is running correctly...</msg>
+<arg>Verifying frontend application is running correctly...</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-10-04T13:18:23.586537" elapsed="0.000000"/>
+</kw>
+<kw name="Wait For Load State" owner="Browser">
+<msg time="2025-10-04T13:18:23.590075" level="INFO">Waiting page load to state to receive networkidle in 30000.0</msg>
+<msg time="2025-10-04T13:18:23.833369" level="INFO">Load state networkidle got in 30000</msg>
+<arg>networkidle</arg>
+<arg>timeout=${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits that the page reaches the required load state.</doc>
+<status status="PASS" start="2025-10-04T13:18:23.587536" elapsed="0.245833"/>
+</kw>
+<kw name="Get Title" owner="Browser">
+<msg time="2025-10-04T13:18:23.849309" level="DEBUG">Active page title is: React App</msg>
+<msg time="2025-10-04T13:18:23.849309" level="INFO">Title: 'React App'</msg>
+<msg time="2025-10-04T13:18:23.849309" level="INFO">${title} = React App</msg>
+<var>${title}</var>
+<tag>Assertion</tag>
+<tag>Getter</tag>
+<tag>PageContent</tag>
+<doc>Returns the title of the current page.</doc>
+<status status="PASS" start="2025-10-04T13:18:23.833369" elapsed="0.015940"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-10-04T13:18:23.850352" level="INFO">Frontend page title: React App</msg>
+<arg>Frontend page title: ${title}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-10-04T13:18:23.849309" elapsed="0.001043"/>
+</kw>
+<kw name="Take Screenshot" owner="Browser">
+<msg time="2025-10-04T13:18:24.517899" level="DEBUG">Screenshot successfully captured to: C:\NODE-WINDSURF\board-app\robot\results\browser\screenshot\frontend_startup_verification.png</msg>
+<msg time="2025-10-04T13:18:24.518732" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="browser/screenshot/frontend_startup_verification.png" target="_blank"&gt;&lt;img src="browser/screenshot/frontend_startup_verification.png" width="800px"/&gt;&lt;/a&gt;</msg>
+<arg>frontend_startup_verification</arg>
+<tag>PageContent</tag>
+<doc>Takes a screenshot of the current window or element and saves it to disk.</doc>
+<status status="PASS" start="2025-10-04T13:18:23.850352" elapsed="0.668380"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-10-04T13:18:24.520521" level="INFO">✅ Frontend application verification completed successfully!</msg>
+<arg>✅ Frontend application verification completed successfully!</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-10-04T13:18:24.520015" elapsed="0.000506"/>
+</kw>
+<doc>Verifies the frontend React application loaded correctly</doc>
+<status status="PASS" start="2025-10-04T13:18:23.585540" elapsed="0.934981"/>
+</kw>
+<msg time="2025-10-04T13:18:24.553975" level="INFO">Switching context to context=e5efb0c4-2039-404e-a347-21575b40c1ca in CURRENT</msg>
+<msg time="2025-10-04T13:18:24.570789" level="INFO">Successfully changed active context: context=e5efb0c4-2039-404e-a347-21575b40c1ca</msg>
+<msg time="2025-10-04T13:18:24.692865" level="INFO">Successfully closed Context</msg>
+<doc>Verifies backend is running and starts the frontend board application</doc>
+<tag>startup</tag>
+<status status="PASS" start="2025-10-04T13:18:09.141790" elapsed="15.379868"/>
+</test>
+<status status="PASS" start="2025-10-04T13:18:08.848392" elapsed="15.845570"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tasks</stat>
+</total>
+<tag>
+<stat pass="1" fail="0" skip="0">startup</stat>
+</tag>
+<suite>
+<stat name="Startup" id="s1" pass="1" fail="0" skip="0">Startup</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2025-10-04T13:18:11.218703" level="WARN">Keyword 'BuiltIn.Run Keyword Unless' is deprecated. </msg>
+</errors>
+</robot>

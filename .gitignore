@@ -21,3 +21,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# robot framework dependencies
+/robot/venv
+# /robot/results
+
+# VSCode settings
+.vscode/*

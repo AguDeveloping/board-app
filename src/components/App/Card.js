@@ -40,7 +40,7 @@ const CardStatus = styled.span`
     switch (status) {
       case "todo":
         return "#e9ecef";
-      case "in-progress":
+      case "doing":
         return "#cff4fc";
       case "done":
         return "#d1e7dd";
@@ -52,7 +52,7 @@ const CardStatus = styled.span`
     switch (status) {
       case "todo":
         return "#495057";
-      case "in-progress":
+      case "doing":
         return "#055160";
       case "done":
         return "#0f5132";
@@ -121,8 +121,8 @@ const Card = ({ id, title, description, status, onDelete, onUpdate }) => {
     switch (status) {
       case "todo":
         return "To Do";
-      case "in-progress":
-        return "In Progress";
+      case "doing":
+        return "Doing";
       case "done":
         return "Done";
       default:
@@ -185,7 +185,7 @@ const Card = ({ id, title, description, status, onDelete, onUpdate }) => {
                 onChange={(e) => setEditStatus(e.target.value)}
               >
                 <option value="todo">To Do</option>
-                <option value="in-progress">In Progress</option>
+                <option value="doing">Doing</option>
                 <option value="done">Done</option>
               </Form.Select>
             </Form.Group>

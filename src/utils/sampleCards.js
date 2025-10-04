@@ -41,7 +41,7 @@ const sampleDescriptions = [
 ];
 
 // Sample card statuses
-const statuses = ['todo', 'in-progress', 'done'];
+const statuses = ['todo', 'doing', 'done'];
 
 // Generate a random card
 const generateRandomCard = () => {

@@ -19,6 +19,11 @@ import SideHead from "./components/Head/SideHead";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilters, setStatusFilters] = useState({
+    todo: true,
+    doing: true,
+    done: true,
+  });
   const [searchProject, setSearchProject] = useState("");
   const [totalFilteredCards, setTotalFilteredCards] = useState(0);
 
@@ -27,22 +32,22 @@ function App() {
   const [triggerLoadCards, setTriggerLoadCards] = useState(false);
 
   const {
-    user, 
-    authenticated, 
-    showRegister, 
+    user,
+    authenticated,
+    showRegister,
     handleRegisterSuccess,
     handleLoginSuccess,
     handleSwitchToRegister,
     handleSwitchToLogin,
-    handleLogout
+    handleLogout,
   } = useAuth();
 
-  // Load cards on initial render if authenticated
+  // Load cards on initial render if authenticated and when status filters change
   useEffect(() => {
     if (authenticated) {
       setTriggerLoadCards(true);
     }
-  }, [authenticated]);
+  }, [authenticated, statusFilters]);
 
   // If not authenticated, show login or registration screen
   if (!authenticated) {
@@ -74,6 +79,8 @@ function App() {
               setSearchTerm={setSearchTerm}
               setTriggerLoadCards={setTriggerLoadCards}
               totalFilteredCards={totalFilteredCards}
+              statusFilters={statusFilters}
+              setStatusFilters={setStatusFilters}
             />
           </Row>
         </Container>
@@ -94,6 +101,7 @@ function App() {
               setTotalFilteredCards={setTotalFilteredCards}
               searchProject={searchProject}
               setSearchProject={setSearchProject}
+              statusFilters={statusFilters}
             />
           </Row>
         </Container>

@@ -22,7 +22,7 @@
 - Responsive UI using React Bootstrap
 - Card management interface with create, read, update, delete operations
 - Authentication forms for login and registration
-- Status indicators for cards (todo, in-progress, done)
+- Status indicators for cards (todo, doing, done)
 - Search functionality for filtering cards
 - Pagination for large card collections
 - Sample card generation for testing

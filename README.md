@@ -6,7 +6,7 @@ A React-based frontend application for managing cards/tasks with a beautiful and
 
 - Card management interface with create, read, update, delete operations
 - Authentication system with login and registration
-- Status indicators for cards (todo, in-progress, done)
+- Status indicators for cards (todo, doing, done)
 - Search functionality for filtering cards
 - Pagination for large card collections
 - Sample card generation for testing

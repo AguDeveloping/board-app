@@ -14,18 +14,14 @@ const BodyHeadAll = ({
   setSearchTerm,
   setTriggerLoadCards,
   totalFilteredCards,
+  statusFilters,
+  setStatusFilters,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [newCardTitle, setNewCardTitle] = useState("");
   const [newCardDescription, setNewCardDescription] = useState("");
   const [newCardStatus, setNewCardStatus] = useState("todo");
   const [submitting, setSubmitting] = useState(false);
-
-  const [statusFilters, setStatusFilters] = useState({
-    todo: true,
-    doing: true,
-    done: true,
-  });
 
   const handleStatusChange = (e) => {
     const { name, checked } = e.target;
@@ -178,7 +174,7 @@ const BodyHeadAll = ({
                 onChange={(e) => setNewCardStatus(e.target.value)}
               >
                 <option value="todo">To Do</option>
-                <option value="in-progress">In Progress</option>
+                <option value="doing">Doing</option>
                 <option value="done">Done</option>
               </Form.Select>
             </Form.Group>

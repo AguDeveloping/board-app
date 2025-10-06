@@ -2,10 +2,10 @@ import { authAxios } from './auth';
 
 const API_URL = 'http://localhost:3000/api';
 
-// Fetch all cards
-export const fetchCards = async () => {
+// Fetch all cards with optional query parameters
+export const fetchCards = async (queryParams = '') => {
   try {
-    const response = await authAxios.get(`${API_URL}/cards`);
+    const response = await authAxios.get(`${API_URL}/cards${queryParams}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching cards:', error);

@@ -7,7 +7,7 @@
         idParent?
         levelProject?   [0-9]
         title           ""
-        status          [todo, in progress, done]
+        status          [todo, doing, done]
         priority        [0-4]
         
         dueDate?    
@@ -37,9 +37,9 @@ Stats
     A
     B               Title: project name.                Total cards: 10
                     ---------------------------------------------------
-> stats               todo             in progress            done    
+> stats               todo             doing            done    
     todo
-    in progress
+    doing
     done
 
     due dates

@@ -1,71 +1,16 @@
-import { useEffect, useState } from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
-import { fetchCards } from "../../services/api";
 
 import Card from "../App/Card";
 
 import "./BodyMainProject.css";
 
 const BodyMainProject = ({
+  loading,
+  filteredCards,
   searchTerm = "",
-  setSearchTerm,
-  searchProject = "",
-  setTotalFilteredCards,
+  handleCardUpdate,
+  handleCardDelete,
 }) => {
-  const [cards, setCards] = useState([]);
-  const [filteredCards, setFilteredCards] = useState([]);
-
-  const [loading, setLoading] = useState(true);
-
-  // Load cards from API
-  const loadCards = async () => {
-    setLoading(true);
-    try {
-      const data = await fetchCards();
-      setCards(data);
-      setTotalFilteredCards(data.length);
-      console.log("Cards loaded in BodyMainProject:", data.length);
-      console.log("Search Term:", searchTerm);
-      console.log("Search Project:", searchProject);
-      console.log("data:\n" + JSON.stringify(data, null, 2));
-    } catch (error) {
-      console.error("Error loading cards:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Filter cards based on search term and project
-  useEffect(() => {
-    loadCards();
-  }, [searchProject, searchTerm]);
-  // }, []);
-
-  // load cards on component mount
-  useEffect(() => {
-    loadCards();
-    setSearchTerm("");
-  }, []);
-
-  // Filter cards based on search term
-  useEffect(() => {
-    if (searchTerm.trim() === "") {
-      setFilteredCards(cards);
-    } else {
-      const filtered = cards.filter(
-        (card) =>
-          card.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          card.description.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredCards(filtered);
-    }
-  }, [searchTerm, cards]);
-
-  // Update total filtered cards count.
-  useEffect(() => {
-    setTotalFilteredCards(filteredCards.length);
-  }, [filteredCards, setTotalFilteredCards]);
-
   return (
     <>
       {loading ? (
@@ -100,18 +45,18 @@ const BodyMainProject = ({
                           title={card.title}
                           description={card.description}
                           status={card.status}
-                          // onDelete={() => {}}
-                          // onUpdate={() => {}}
+                          onUpdate={() => handleCardUpdate(card)}
+                          onDelete={() => handleCardDelete(card._id)}
                         />
                       </div>
                     ))}
                 </Col>
               </Col>
               <Col>
-                <h4 className="text-center my-2">In Progress</h4>
+                <h4 className="text-center my-2">Doing</h4>
                 <Col className="project-column-scroll">
                   {filteredCards
-                    .filter((card) => card.status === "in-progress")
+                    .filter((card) => card.status === "doing")
                     .map((card, id) => (
                       <div key={id} className="vertical-card">
                         <Card
@@ -120,8 +65,8 @@ const BodyMainProject = ({
                           title={card.title}
                           description={card.description}
                           status={card.status}
-                          // onDelete={() => {}}
-                          // onUpdate={() => {}}
+                          onUpdate={() => handleCardUpdate(card)}
+                          onDelete={() => handleCardDelete(card._id)}
                         />
                       </div>
                     ))}
@@ -140,8 +85,8 @@ const BodyMainProject = ({
                           title={card.title}
                           description={card.description}
                           status={card.status}
-                          // onDelete={() => {}}
-                          // onUpdate={() => {}}
+                          onUpdate={() => handleCardUpdate(card)}
+                          onDelete={() => handleCardDelete(card._id)}
                         />
                       </div>
                     ))}

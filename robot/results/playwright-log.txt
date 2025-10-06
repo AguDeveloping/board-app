@@ -1,0 +1,43 @@
+{"level":30,"time":"2025-10-04T16:18:21.787Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Listening on 127.0.0.1:61212"}
+(node:21716) DeprecationWarning: Calling start() is no longer necessary. It can be safely omitted.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+{"level":30,"time":"2025-10-04T16:18:22.029Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Start of node method newBrowser"}
+{"level":30,"time":"2025-10-04T16:18:22.599Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Adding browser to stack: chromium, version: 140.0.7339.186"}
+{"level":30,"time":"2025-10-04T16:18:22.599Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Adding 0 contexts to browser"}
+{"level":30,"time":"2025-10-04T16:18:22.599Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"End of node method newBrowser"}
+{"level":30,"time":"2025-10-04T16:18:22.606Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Start of node method newContext"}
+{"level":30,"time":"2025-10-04T16:18:22.606Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Creating new context with options: {\"acceptDownloads\":true,\"bypassCSP\":false,\"forcedColors\":\"none\",\"ignoreHTTPSErrors\":false,\"javaScriptEnabled\":true,\"offline\":false,\"reducedMotion\":\"no-preference\",\"serviceWorkers\":\"allow\",\"viewport\":{\"height\":1080,\"width\":1920}}"}
+{"level":30,"time":"2025-10-04T16:18:22.606Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"currentBrowser: {\"name\":\"chromium\",\"browser\":{\"_type\":\"Browser\",\"_guid\":\"browser@d8272410fd77d8d339313253e55da45b\"},\"headless\":false,\"_contextStack\":[],\"id\":\"browser=6e392fa7-a196-454d-af75-351610749fbc\"}"}
+{"level":30,"time":"2025-10-04T16:18:22.606Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Trace file: "}
+{"level":30,"time":"2025-10-04T16:18:22.617Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Setting default timeout for context context=e5efb0c4-2039-404e-a347-21575b40c1ca to 10000"}
+{"level":30,"time":"2025-10-04T16:18:22.617Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Changed active context: context=e5efb0c4-2039-404e-a347-21575b40c1ca"}
+{"level":30,"time":"2025-10-04T16:18:22.617Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"End of node method newContext"}
+{"level":30,"time":"2025-10-04T16:18:22.621Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Start of node method newPage"}
+{"level":30,"time":"2025-10-04T16:18:22.621Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"currentBrowser: {\"name\":\"chromium\",\"browser\":{\"_type\":\"Browser\",\"_guid\":\"browser@d8272410fd77d8d339313253e55da45b\"},\"headless\":false,\"_contextStack\":[{\"id\":\"context=e5efb0c4-2039-404e-a347-21575b40c1ca\",\"c\":{\"_type\":\"BrowserContext\",\"_guid\":\"browser-context@680a6d70011783d8672f17f999f0856d\"},\"pageStack\":[],\"options\":{\"acceptDownloads\":true,\"bypassCSP\":false,\"forcedColors\":\"none\",\"ignoreHTTPSErrors\":false,\"javaScriptEnabled\":true,\"offline\":false,\"reducedMotion\":\"no-preference\",\"serviceWorkers\":\"allow\",\"viewport\":{\"height\":1080,\"width\":1920}},\"traceFile\":\"\"}],\"id\":\"browser=6e392fa7-a196-454d-af75-351610749fbc\"}"}
+{"level":30,"time":"2025-10-04T16:18:22.794Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Video path: undefined"}
+{"level":30,"time":"2025-10-04T16:18:22.795Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Changed active page"}
+{"level":30,"time":"2025-10-04T16:18:23.576Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"End of node method newPage"}
+{"level":30,"time":"2025-10-04T16:18:23.595Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Start of node method WaitForPageLoadState"}
+{"level":30,"time":"2025-10-04T16:18:23.596Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"timeout: 30000 state: networkidle"}
+{"level":30,"time":"2025-10-04T16:18:23.834Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"End of node method WaitForPageLoadState"}
+{"level":30,"time":"2025-10-04T16:18:23.857Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Start of node method takeScreenshot"}
+{"level":30,"time":"2025-10-04T16:18:23.857Z","pid":21716,"hostname":"Agustin_HP_OMEN","Take screenshot with options: ":{"path":"C:\\NODE-WINDSURF\\board-app\\robot\\results\\browser\\screenshot\\frontend_startup_verification.png","fileType":"png","fullPage":false,"timeout":10000,"omitBackground":false}}
+{"level":30,"time":"2025-10-04T16:18:24.516Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"End of node method takeScreenshot"}
+{"level":30,"time":"2025-10-04T16:18:24.531Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:18:24.536Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:18:24.541Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:18:24.546Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:18:24.551Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:18:24.555Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:18:24.562Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:18:24.565Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:18:24.567Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Changed active context: context=e5efb0c4-2039-404e-a347-21575b40c1ca"}
+{"level":30,"time":"2025-10-04T16:18:24.568Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Changing current active page: page=f232d143-276b-48f5-95bd-ddc72904ddeb"}
+{"level":30,"time":"2025-10-04T16:18:24.568Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Changed active page"}
+{"level":30,"time":"2025-10-04T16:18:24.571Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Start of node method closeContext"}
+{"level":30,"time":"2025-10-04T16:18:24.584Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Removed page=c0bbe9c3-c98d-44f4-bf7d-5228492bbbf2 from context=e5efb0c4-2039-404e-a347-21575b40c1ca page stack"}
+{"level":30,"time":"2025-10-04T16:18:24.691Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"End of node method closeContext"}
+{"level":30,"time":"2025-10-04T16:18:24.700Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:18:24.701Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:18:24.759Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"Start of node method closeAllBrowsers"}
+{"level":30,"time":"2025-10-04T16:18:25.252Z","pid":21716,"hostname":"Agustin_HP_OMEN","msg":"End of node method closeAllBrowsers"}

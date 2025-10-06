@@ -1,0 +1,20 @@
+# Robot Framework Core
+robotframework>=7.0
+
+# Web Testing Libraries
+robotframework-seleniumlibrary>=6.1.0
+robotframework-browser>=18.0.0
+
+# WebDriver Management (Modern Alternative)
+selenium>=4.15.0
+webdriver-manager>=4.0.0
+
+# Additional Testing Utilities
+robotframework-requests>=0.9.0
+robotframework-jsonlibrary>=0.5.0
+
+# Environment Configuration
+python-dotenv>=1.0.0
+
+# Documentation and Reporting
+robotframework-pabot>=2.16.0

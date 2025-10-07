@@ -41,6 +41,7 @@ const BodyHeadAll = ({
   // Clear search
   const handleClearSearch = () => {
     setSearchTerm("");
+    setTriggerLoadCards(true);
   };
 
   // Handle card creation

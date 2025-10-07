@@ -1,3 +1,53 @@
+.styled-card {
+  height: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.styled-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.card-description {
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+/* CardStatus classes for each status type */
+.card-status {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.card-status.todo {
+  background-color: #e9ecef;
+  color: #495057;
+}
+.card-status.doing {
+  background-color: #cff4fc;
+  color: #055160;
+}
+.card-status.done {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
 .card-title {
   font-size: 100%;
 }

@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { Col, Pagination } from "react-bootstrap";
+import { toast } from "react-toastify";
 import { fetchCards, deleteCard, updateCard } from "../../services/api";
 import viewsCards from "../../utils/viewsCards";
 import config from "../../config";
@@ -19,7 +20,6 @@ function BodyMain({
   setTotalFilteredCards,
   searchProject,
   statusFilters,
-  setSearchProject,
 }) {
   const developmentModeEnabled = config.developmentMode?.enabled || false;
 
@@ -104,11 +104,6 @@ function BodyMain({
     setCurrentPage(1);
   }, [searchTerm, cards, setTotalFilteredCards]);
 
-  // // Update total filtered cards count.
-  // useEffect(() => {
-  //   setTotalFilteredCards(filteredCards.length);
-  // }, [filteredCards, setTotalFilteredCards]);
-
   // Load cards when triggerLoadCards changes to true.
   useEffect(() => {
     if (triggerLoadCards) {
@@ -120,14 +115,21 @@ function BodyMain({
   // Handle card update
   const handleCardUpdate = async (updatedCardData) => {
     try {
+      // console.log('handleCardUpdate called with:', updatedCardData);
       const { _id, title, description, status } = updatedCardData;
-      const updatedCard = await updateCard(_id, { $set: { title, description, status } });
+      const updatedCard = await updateCard(_id, {
+        title,
+        description,
+        status,
+      });
+      // console.log('Update response:', updatedCard);
       setCards(
         cards.map((card) => (card._id === updatedCard._id ? updatedCard : card))
       );
+      toast.success("Card updated successfully!");
     } catch (error) {
       console.error("Error updating card:", error);
-      alert("Failed to update card. Please try again.");
+      toast.error("Failed to update card. Please try again.");
     }
   };
 
@@ -136,8 +138,16 @@ function BodyMain({
     try {
       await deleteCard(id);
       setCards(cards.filter((card) => card._id !== id));
+      toast.success("Card deleted!");
+      setTriggerLoadCards(true);
     } catch (error) {
       console.error("Error deleting card:", error);
+      // Set a user-friendly message based on error
+      if (error.response?.status === 403) {
+        toast.error("You do not have permission to delete this card.");
+      } else {
+        toast.error("An error occurred while deleting the card.");
+      }
     }
   };
 

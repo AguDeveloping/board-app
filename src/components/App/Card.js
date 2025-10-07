@@ -1,73 +1,10 @@
-import React, { useState } from "react";
-import {
-  Card as BootstrapCard,
-  Button,
-  Modal,
-  Form,
-  Spinner,
-} from "react-bootstrap";
-import styled from "styled-components";
+import { useState } from "react";
+import { Card as BootstrapCard, Button } from "react-bootstrap";
+
 import "./Card.css";
 
-const StyledCard = styled(BootstrapCard)`
-  height: 100%;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  }
-`;
-
-const CardTitle = styled(BootstrapCard.Title)`
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-`;
-
-const CardDescription = styled(BootstrapCard.Text)`
-  color: #6c757d;
-  margin-bottom: 1rem;
-`;
-
-const CardStatus = styled.span`
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-  background-color: ${({ status }) => {
-    switch (status) {
-      case "todo":
-        return "#e9ecef";
-      case "doing":
-        return "#cff4fc";
-      case "done":
-        return "#d1e7dd";
-      default:
-        return "#e9ecef";
-    }
-  }};
-  color: ${({ status }) => {
-    switch (status) {
-      case "todo":
-        return "#495057";
-      case "doing":
-        return "#055160";
-      case "done":
-        return "#0f5132";
-      default:
-        return "#495057";
-    }
-  }};
-`;
-
-const CardActions = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-top: auto;
-`;
+import EditModal from "./EditModal";
+import { getStatusLabel } from "../../utils/getStatusLabel";
 
 const Card = ({ id, title, description, status, onDelete, onUpdate }) => {
   const [showEditModal, setShowEditModal] = useState(false);
@@ -91,17 +28,15 @@ const Card = ({ id, title, description, status, onDelete, onUpdate }) => {
     setSubmitting(true);
 
     try {
-      if (onUpdate) {
-        // Create an updated card object to pass to the parent component
-        const updatedCardData = {
-          _id: id,
-          title: editTitle,
-          description: editDescription,
-          status: editStatus,
-        };
-
-        onUpdate(updatedCardData);
-      }
+      // Create an updated card object to pass to the parent component
+      const updatedCardData = {
+        _id: id,
+        title: editTitle,
+        description: editDescription,
+        status: editStatus,
+      };
+      // console.log("ON card component - Submitting updated card:", updatedCardData);
+      onUpdate(updatedCardData);
 
       handleCloseModal();
     } catch (error) {
@@ -111,34 +46,21 @@ const Card = ({ id, title, description, status, onDelete, onUpdate }) => {
     }
   };
 
-  const handleDelete = () => {
-    if (onDelete) {
-      onDelete(id);
-    }
-  };
-
-  const getStatusLabel = (status) => {
-    switch (status) {
-      case "todo":
-        return "To Do";
-      case "doing":
-        return "Doing";
-      case "done":
-        return "Done";
-      default:
-        return status;
-    }
-  };
-
   return (
     <>
-      <StyledCard className="card-title">
-        <div className="box-with-style ">PROJECT / CARD</div>
-        <BootstrapCard.Body className="d-flex flex-column card-title">
-          <CardStatus status={status}>{getStatusLabel(status)}</CardStatus>
-          <CardTitle className="card-title">{title}</CardTitle>
-          <CardDescription>{description}</CardDescription>
-          <CardActions>
+      <BootstrapCard className="styled-card">
+        <div className="box-with-style">PROJECT / CARD</div>
+        <BootstrapCard.Body className="d-flex flex-column">
+          <span className={`card-status ${status}`}>
+            {getStatusLabel(status)}
+          </span>
+          <BootstrapCard.Title className="card-title">
+            {title}
+          </BootstrapCard.Title>
+          <BootstrapCard.Text className="card-description">
+            {description}
+          </BootstrapCard.Text>
+          <div className="card-actions">
             <Button
               variant="outline-primary"
               size="sm"
@@ -146,78 +68,25 @@ const Card = ({ id, title, description, status, onDelete, onUpdate }) => {
             >
               Edit
             </Button>
-            <Button variant="outline-danger" size="sm" onClick={handleDelete}>
+            <Button variant="outline-danger" size="sm" onClick={onDelete}>
               Delete
             </Button>
-          </CardActions>
+          </div>
         </BootstrapCard.Body>
-      </StyledCard>
+      </BootstrapCard>
 
-      <Modal show={showEditModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Card</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                type="text"
-                value={editTitle}
-                onChange={(e) => setEditTitle(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                value={editDescription}
-                onChange={(e) => setEditDescription(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Status</Form.Label>
-              <Form.Select
-                value={editStatus}
-                onChange={(e) => setEditStatus(e.target.value)}
-              >
-                <option value="todo">To Do</option>
-                <option value="doing">Doing</option>
-                <option value="done">Done</option>
-              </Form.Select>
-            </Form.Group>
-            <div className="d-flex justify-content-end">
-              <Button
-                variant="secondary"
-                onClick={handleCloseModal}
-                className="me-2"
-              >
-                Cancel
-              </Button>
-              <Button variant="primary" type="submit" disabled={submitting}>
-                {submitting ? (
-                  <>
-                    <Spinner
-                      as="span"
-                      animation="border"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                      className="me-2"
-                    />
-                    Saving...
-                  </>
-                ) : (
-                  "Save Changes"
-                )}
-              </Button>
-            </div>
-          </Form>
-        </Modal.Body>
-      </Modal>
+      <EditModal
+        show={showEditModal}
+        title={editTitle}
+        description={editDescription}
+        status={editStatus}
+        submitting={submitting}
+        onClose={handleCloseModal}
+        onSubmit={handleSubmit}
+        onTitleChange={(e) => setEditTitle(e.target.value)}
+        onDescriptionChange={(e) => setEditDescription(e.target.value)}
+        onStatusChange={(e) => setEditStatus(e.target.value)}
+      />
     </>
   );
 };

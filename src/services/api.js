@@ -38,7 +38,9 @@ export const createCard = async (cardData) => {
 // Update an existing card
 export const updateCard = async (id, cardData) => {
   try {
+    // console.log('Updating card with data:', cardData);
     const response = await authAxios.put(`${API_URL}/cards/${id}`, cardData);
+    // console.log('Update response:', response.data);
     return response.data;
   } catch (error) {
     console.error(`Error updating card with id ${id}:`, error);

@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { Container, Row } from "react-bootstrap";
+import { ToastContainer } from 'react-toastify';
 import viewsCards from "./utils/viewsCards";
 import useAuth from "./hooks/useAuth";
 
+import 'react-toastify/dist/ReactToastify.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
@@ -99,7 +101,6 @@ function App() {
               triggerLoadCards={triggerLoadCards}
               setTriggerLoadCards={setTriggerLoadCards}
               setTotalFilteredCards={setTotalFilteredCards}
-              searchProject={searchProject}
               setSearchProject={setSearchProject}
               statusFilters={statusFilters}
             />
@@ -108,6 +109,7 @@ function App() {
       </MainContent>
 
       <Footer />
+      <ToastContainer />
     </AppContainer>
   );
 }

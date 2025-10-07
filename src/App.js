@@ -26,7 +26,7 @@ function App() {
     doing: true,
     done: true,
   });
-  const [searchProject, setSearchProject] = useState("");
+  // const [searchProject, setSearchProject] = useState("");
   const [totalFilteredCards, setTotalFilteredCards] = useState(0);
 
   const [viewCard, setViewCard] = useState(viewsCards[0]); // Default to "all"
@@ -101,7 +101,6 @@ function App() {
               triggerLoadCards={triggerLoadCards}
               setTriggerLoadCards={setTriggerLoadCards}
               setTotalFilteredCards={setTotalFilteredCards}
-              setSearchProject={setSearchProject}
               statusFilters={statusFilters}
             />
           </Row>

@@ -45,7 +45,7 @@ const BodyMainProject = ({
                           title={card.title}
                           description={card.description}
                           status={card.status}
-                          onUpdate={() => handleCardUpdate(card)}
+                          onUpdate={handleCardUpdate}
                           onDelete={() => handleCardDelete(card._id)}
                         />
                       </div>

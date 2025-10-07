@@ -18,7 +18,6 @@ function BodyMain({
   triggerLoadCards,
   setTriggerLoadCards,
   setTotalFilteredCards,
-  searchProject,
   statusFilters,
 }) {
   const developmentModeEnabled = config.developmentMode?.enabled || false;
@@ -80,13 +79,13 @@ function BodyMain({
     } finally {
       setLoading(false);
     }
-  }, [statusFilters, setTotalFilteredCards, searchTerm, searchProject]);
+  }, [statusFilters, setTotalFilteredCards]);
 
   // Load cards on component mount
   useEffect(() => {
     loadCards();
     setSearchTerm("");
-  }, []);
+  }, [loadCards, setSearchTerm]);
 
   // Filter cards based on search term
   useEffect(() => {

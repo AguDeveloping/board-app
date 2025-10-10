@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Badge, Col, Row } from "react-bootstrap";
 import {
   Chart as ChartJS,
@@ -9,6 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { fetchCardsStat } from "../../services/api";
 import StatCard from "../App/StatCard";
 
 import "./BodyMainStat.css";
@@ -23,23 +25,45 @@ ChartJS.register(
 );
 
 const BodyMainStat = () => {
+  const [stat, setStat] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await fetchCardsStat();
+      setStat(data[0]);
+    }
+    fetchData();
+  }, []);
+  // add log to see the values on stat
+  // console.log("Statistics data:", stat);
+  if (!stat) return <div>Loading...</div>;
+
+  const todoCount = stat.totalStatus.find((s) => s._id === "todo")?.count || 0;
+  const doingCount =
+    stat.totalStatus.find((s) => s._id === "doing")?.count || 0;
+  const doneCount = stat.totalStatus.find((s) => s._id === "done")?.count || 0;
+
   return (
     <div className="layout-main-stat">
       <Row>
         <Col>
-          <StatCard title="Total Cards" value={50} bg="light" />
+          <StatCard title="Total Cards" value={stat.totalCards} bg="light" />
         </Col>
         <Col>
-          <StatCard title="Todo" value={20} bg="warning" />
+          <StatCard title="Todo" value={todoCount} bg="warning" />
         </Col>
         <Col>
-          <StatCard title="Doing" value={25} bg="info" />
+          <StatCard title="Doing" value={doingCount} bg="info" />
         </Col>
         <Col>
-          <StatCard title="Done" value={5} bg="success" />
+          <StatCard title="Done" value={doneCount} bg="success" />
         </Col>
         <Col>
-          <StatCard title="Total Projects" value={23} bg="light" />
+          <StatCard
+            title="Total Projects"
+            value={stat.totalProjects}
+            bg="light"
+          />
         </Col>
       </Row>
       <hr />
@@ -48,33 +72,34 @@ const BodyMainStat = () => {
           <ul>
             <li className="raw-stats">
               <h5>
-                Cards created in the last 7 days:{" "}
+                Cards created [last 7 days]:{" "}
                 <Badge pill bg="info">
-                  10
+                  {stat.cardsCreatedLast7Days}
                 </Badge>
               </h5>
             </li>
             <li className="raw-stats">
               <h5>
-                Cards completed in the last 7 days:{" "}
+                Cards completed [last 7 days]:{" "}
                 <Badge pill bg="info">
-                  2
+                  {stat.cardsCompletedLast7Days}
                 </Badge>
               </h5>
             </li>
             <li className="raw-stats">
               <h5>
-                Average cards completed per day:{" "}
+                Average completed [last 30 days]:{" "}
                 <Badge pill bg="info">
-                  0.3
+                  {(stat.cardsCompletedLast30Days / 30).toFixed(1)}
                 </Badge>
               </h5>
             </li>
             <li className="raw-stats">
               <h5>
-                Most active project:{" "}
+                Most active:{" "}
                 <Badge pill bg="info">
-                  Project Alpha
+                  {stat.mostActiveProjectLast30Days?.name || "N/A"} (
+                  {stat.mostActiveProjectLast30Days?.count || 0} cards)
                 </Badge>
               </h5>
             </li>
@@ -82,27 +107,23 @@ const BodyMainStat = () => {
         </Col>
         <Col className="stats-low-columns">
           <div className="chart-container">
+            <h5 className="chart-title">Card Status Distribution</h5>
             <Bar
               data={{
                 labels: ["Todo", "Doing", "Done"],
                 datasets: [
                   {
-                    label: "Card Status",
-                    data: [20, 25, 5],
-                    backgroundColor: ["#ffc107", "#17a2b8", "#28a745"],
+                    label: "Card Status Distribution",
+                    data: [todoCount, doingCount, doneCount],
+                    backgroundColor: ["#ffc107", "#17a2b8", "#28a745"], // yellow, blue, green
                   },
                 ],
               }}
               options={{
                 responsive: true,
                 plugins: {
-                  legend: {
-                    position: "top",
-                  },
-                  title: {
-                    display: true,
-                    text: "Card Status Distribution",
-                  },
+                  legend: { display: false },
+                  title: { display: false },
                 },
               }}
             />

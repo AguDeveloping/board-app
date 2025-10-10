@@ -13,6 +13,17 @@ export const fetchCards = async (queryParams = '') => {
   }
 };
 
+// Fetch statics cards
+export const fetchCardsStat = async () => {
+  try {
+    const response = await authAxios.get(`${API_URL}/cards/stat`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching cards statics:', error);
+    throw error;
+  }
+};
+
 // Fetch a single card by ID
 export const fetchCardById = async (id) => {
   try {

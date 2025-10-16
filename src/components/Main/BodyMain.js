@@ -19,6 +19,7 @@ function BodyMain({
   setTriggerLoadCards,
   setTotalFilteredCards,
   statusFilters,
+  projectNameSelected,
 }) {
   const developmentModeEnabled = config.developmentMode?.enabled || false;
 
@@ -67,6 +68,9 @@ function BodyMain({
       if (statusFilters.todo) params.append("status", "todo");
       if (statusFilters.doing) params.append("status", "doing");
       if (statusFilters.done) params.append("status", "done");
+      if (projectNameSelected.length > 0) {
+        params.append("title", projectNameSelected);
+      }
       const queryParams = params.toString() ? `?${params.toString()}` : "";
 
       const data = await fetchCards(queryParams);
@@ -79,7 +83,7 @@ function BodyMain({
     } finally {
       setLoading(false);
     }
-  }, [statusFilters, setTotalFilteredCards]);
+  }, [statusFilters, setTotalFilteredCards, projectNameSelected]);
 
   // Load cards on component mount
   useEffect(() => {

@@ -27,12 +27,12 @@ const BodyMainAll = ({
         <>
           {filteredCards.length === 0 ? (
             <div className="text-center my-5">
-              <p>
+              <h4>
                 No cards found.{" "}
                 {searchTerm
                   ? "Try a different search term."
                   : "Create a new card to get started."}
-              </p>
+              </h4>
             </div>
           ) : (
             <Row>

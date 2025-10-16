@@ -2,7 +2,7 @@ import { Button, Col, Row } from "react-bootstrap";
 import viewsCards from "../../utils/viewsCards";
 import config from "../../config";
 
-function SideHead({ viewCard, setViewCard }) {
+function SideHead({ viewCard, setViewCard, setProjectNameSelected }) {
   const developmentModeEnabled = config.developmentMode?.enabled || false;
 
   return (
@@ -16,6 +16,7 @@ function SideHead({ viewCard, setViewCard }) {
           active={viewCard === viewsCards[0]}
           onClick={() => {
             setViewCard(viewsCards[0]);
+            setProjectNameSelected("");
           }}
         >
           ALL
@@ -34,6 +35,7 @@ function SideHead({ viewCard, setViewCard }) {
           active={viewCard === viewsCards[2]}
           onClick={() => {
             setViewCard(viewsCards[2]);
+            setProjectNameSelected("");
           }}
         >
           Stats

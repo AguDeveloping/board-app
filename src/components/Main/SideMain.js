@@ -1,14 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Badge, Button, Col, Row, Spinner } from "react-bootstrap";
 import viewsCards from "../../utils/viewsCards";
 import { PlusCircleFill } from "react-bootstrap-icons";
 import { generateSampleCards } from "../../utils/sampleCards";
 import config from "../../config";
+import { fetchCards } from "../../services/api";
 
-function SideMain({ viewCard, setTriggerLoadCards }) {
+function SideMain({
+  viewCard,
+  setTriggerLoadCards,
+  projectNameSelected,
+  setProjectNameSelected,
+}) {
   const [generatingSamples, setGeneratingSamples] = useState(false);
+  const [projectName, setProjectName] = useState("");
 
   const developmentModeEnabled = config.developmentMode?.enabled || false;
+
+  // list the differents title of cards into projectsName
+  useEffect(() => {
+    const fetchProjectNames = async () => {
+      const cards = await fetchCards();
+      const projectNames = cards
+        .filter(
+          (card, index, self) =>
+            index === self.findIndex((c) => c.title === card.title)
+        )
+        .map((card) => card.title);
+      setProjectName(projectNames);
+    };
+    fetchProjectNames();
+  }, []);
 
   // Handle sample card generation
   const handleGenerateSampleCards = async () => {
@@ -64,11 +86,19 @@ function SideMain({ viewCard, setTriggerLoadCards }) {
             <label htmlFor="projectSelect" className="form-label">
               Select Project
             </label>
-            <select id="projectSelect" className="form-select">
+            <select
+              id="projectSelect"
+              className="form-select"
+              aria-label="Select Project"
+              value={projectNameSelected}
+              onChange={(e) => setProjectNameSelected(e.target.value)}
+            >
               <option value="">Choose...</option>
-              <option value="project1">Project 1</option>
-              <option value="project2">Project 2</option>
-              <option value="project3">Project 3</option>
+              {Array.from(new Set(projectName)).map((name, index) => (
+                <option key={index} value={name}>
+                  {name.length > 20 ? name.substring(0, 26) + "..." : name}
+                </option>
+              ))}
             </select>
           </div>
         ) : (

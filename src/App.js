@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Container, Row } from "react-bootstrap";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 import viewsCards from "./utils/viewsCards";
 import useAuth from "./hooks/useAuth";
 
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
@@ -32,6 +32,8 @@ function App() {
   const [viewCard, setViewCard] = useState(viewsCards[0]); // Default to "all"
 
   const [triggerLoadCards, setTriggerLoadCards] = useState(false);
+
+  const [projectNameSelected, setProjectNameSelected] = useState("");
 
   const {
     user,
@@ -74,7 +76,11 @@ function App() {
         {/* Head - Upper container: Sidebar and Main Content Layout */}
         <Container className="layout-page-container">
           <Row className="layout-body">
-            <SideHead viewCard={viewCard} setViewCard={setViewCard} />
+            <SideHead
+              viewCard={viewCard}
+              setViewCard={setViewCard}
+              setProjectNameSelected={setProjectNameSelected}
+            />
 
             <BodyHead
               searchTerm={searchTerm}
@@ -93,6 +99,8 @@ function App() {
             <SideMain
               viewCard={viewCard}
               setTriggerLoadCards={setTriggerLoadCards}
+              projectNameSelected={projectNameSelected}
+              setProjectNameSelected={setProjectNameSelected}
             />
             <BodyMain
               viewCard={viewCard}
@@ -102,6 +110,7 @@ function App() {
               setTriggerLoadCards={setTriggerLoadCards}
               setTotalFilteredCards={setTotalFilteredCards}
               statusFilters={statusFilters}
+              projectNameSelected={projectNameSelected}
             />
           </Row>
         </Container>

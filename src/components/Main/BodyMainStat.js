@@ -30,7 +30,11 @@ const BodyMainStat = () => {
   useEffect(() => {
     async function fetchData() {
       const data = await fetchCardsStat();
-      setStat(data[0]);
+      if (!data) {
+        return <div>No data available</div>;
+      } else {
+        setStat(data);
+      }
     }
     fetchData();
   }, []);
@@ -47,7 +51,7 @@ const BodyMainStat = () => {
     <div className="layout-main-stat">
       <Row>
         <Col>
-          <StatCard title="Total Cards" value={stat.totalCards} bg="light" />
+          <StatCard title="Total Cards" value={stat.totalCards ? stat.totalCards : 0} bg="light" />
         </Col>
         <Col>
           <StatCard title="Todo" value={todoCount} bg="warning" />
@@ -61,7 +65,7 @@ const BodyMainStat = () => {
         <Col>
           <StatCard
             title="Total Projects"
-            value={stat.totalProjects}
+            value={stat.totalProjects ? stat.totalProjects : 0}
             bg="light"
           />
         </Col>

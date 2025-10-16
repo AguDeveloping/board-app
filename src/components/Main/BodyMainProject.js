@@ -23,12 +23,12 @@ const BodyMainProject = ({
         <>
           {filteredCards.length === 0 ? (
             <div className="text-center my-5">
-              <p>
+              <h4>
                 No cards found.{" "}
                 {searchTerm
                   ? "Try a different search term."
                   : "Create a new card to get started."}
-              </p>
+              </h4>
             </div>
           ) : (
             <Row className="project-columns">
@@ -65,7 +65,7 @@ const BodyMainProject = ({
                           title={card.title}
                           description={card.description}
                           status={card.status}
-                          onUpdate={() => handleCardUpdate(card)}
+                          onUpdate={handleCardUpdate}
                           onDelete={() => handleCardDelete(card._id)}
                         />
                       </div>
@@ -85,7 +85,7 @@ const BodyMainProject = ({
                           title={card.title}
                           description={card.description}
                           status={card.status}
-                          onUpdate={() => handleCardUpdate(card)}
+                          onUpdate={handleCardUpdate}
                           onDelete={() => handleCardDelete(card._id)}
                         />
                       </div>

@@ -151,6 +151,8 @@ function BodyMain({
       } else {
         toast.error("An error occurred while deleting the card.");
       }
+    } finally {
+      setTriggerLoadCards(true);
     }
   };
 

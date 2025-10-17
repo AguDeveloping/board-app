@@ -55,10 +55,12 @@ const Card = ({ id, title, description, status, onDelete, onUpdate }) => {
             {getStatusLabel(status)}
           </span>
           <BootstrapCard.Title className="card-title">
-            {title}
+            {title.length > 30 ? title.substring(0, 30) + "..." : title}
           </BootstrapCard.Title>
           <BootstrapCard.Text className="card-description">
-            {description}
+            {description.length > 70
+              ? description.substring(0, 70) + "..."
+              : description}
           </BootstrapCard.Text>
           <div className="card-actions">
             <Button
@@ -86,6 +88,7 @@ const Card = ({ id, title, description, status, onDelete, onUpdate }) => {
         onTitleChange={(e) => setEditTitle(e.target.value)}
         onDescriptionChange={(e) => setEditDescription(e.target.value)}
         onStatusChange={(e) => setEditStatus(e.target.value)}
+        id={id}
       />
     </>
   );

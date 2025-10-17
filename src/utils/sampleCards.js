@@ -57,13 +57,17 @@ const generateRandomCard = () => {
 };
 
 // Generate and save sample cards
-export const generateSampleCards = async (count = 10) => {
+export const generateSampleCards = async (count = 10, title) => {
   try {
     const createdCards = [];
+    const cardTitle = title || `Dummy Project - ${Date.now()}`;
     
     for (let i = 0; i < count; i++) {
       const cardData = generateRandomCard();
-      const response = await authAxios.post(`${API_URL}/cards`, cardData);
+      const response = await authAxios.post(`${API_URL}/cards`, {
+        ...cardData,
+        title: cardTitle
+      });
       createdCards.push(response.data);
     }
     

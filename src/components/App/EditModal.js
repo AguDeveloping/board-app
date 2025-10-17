@@ -1,4 +1,4 @@
-import { Modal, Form, Button, Spinner } from "react-bootstrap";
+import { Modal, Form, Button, Spinner, Col } from "react-bootstrap";
 
 const EditModal = ({
   show,
@@ -11,10 +11,14 @@ const EditModal = ({
   onTitleChange,
   onDescriptionChange,
   onStatusChange,
+  id,
 }) => (
   <Modal show={show} onHide={onClose}>
     <Modal.Header closeButton>
-      <Modal.Title>Edit Card</Modal.Title>
+      <Col>
+        <Modal.Title>Edit Card</Modal.Title>
+        <p className="p-0 m-0 mt-2 ms-1 fs-8 text-muted">id: {id}</p>
+      </Col>
     </Modal.Header>
     <Modal.Body>
       <Form onSubmit={onSubmit}>

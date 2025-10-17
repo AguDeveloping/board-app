@@ -111,7 +111,7 @@ const BodyMainStat = () => {
         </Col>
         <Col className="stats-low-columns">
           <div className="chart-container">
-            <h5 className="chart-title">Card Status Distribution</h5>
+            <h5 className="chart-title text-uppercase">Card Status Distribution</h5>
             <Bar
               data={{
                 labels: ["Todo", "Doing", "Done"],

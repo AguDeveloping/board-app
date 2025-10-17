@@ -26,7 +26,6 @@ function App() {
     doing: true,
     done: true,
   });
-  // const [searchProject, setSearchProject] = useState("");
   const [totalFilteredCards, setTotalFilteredCards] = useState(0);
 
   const [viewCard, setViewCard] = useState(viewsCards[0]); // Default to "all"
@@ -50,6 +49,8 @@ function App() {
   useEffect(() => {
     if (authenticated) {
       setTriggerLoadCards(true);
+      setProjectNameSelected("");
+      setViewCard(viewsCards[0]); // Reset to "all" view
     }
   }, [authenticated, statusFilters]);
 

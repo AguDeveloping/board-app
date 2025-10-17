@@ -133,7 +133,7 @@ const BodyHeadAll = ({
       <Row className="main-item m-0 p-0 me-3 mt-3 justify-content-end">
         <Col xs="auto" className="m-0 p-0 fs-5">
           <p className="m-0 p-0 ps-3">
-            Total Cards{" "}
+            total cards{" "}
             <Badge className="p-3 fs-6" bg="secondary">
               {totalFilteredCards}
             </Badge>

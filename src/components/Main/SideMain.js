@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Badge, Button, Col, Row, Spinner } from "react-bootstrap";
+import { Badge, Button, Col, Form, Row, Spinner } from "react-bootstrap";
 import viewsCards from "../../utils/viewsCards";
 import { PlusCircleFill } from "react-bootstrap-icons";
 import { generateSampleCards } from "../../utils/sampleCards";
 import config from "../../config";
 import { fetchCards } from "../../services/api";
+import { toast } from "react-toastify";
 
 function SideMain({
   viewCard,
@@ -14,11 +15,16 @@ function SideMain({
 }) {
   const [generatingSamples, setGeneratingSamples] = useState(false);
   const [projectName, setProjectName] = useState("");
+  const [dummyProjectName, setDummyProjectName] = useState("");
 
   const developmentModeEnabled = config.developmentMode?.enabled || false;
 
-  // list the differents title of cards into projectsName
   useEffect(() => {
+    loadProjectNames();
+  }, []);
+
+  // list the differents title of cards into projectsName
+  const loadProjectNames = async () => {
     const fetchProjectNames = async () => {
       const cards = await fetchCards();
       const projectNames = cards
@@ -30,20 +36,28 @@ function SideMain({
       setProjectName(projectNames);
     };
     fetchProjectNames();
-  }, []);
+  };
 
   // Handle sample card generation
   const handleGenerateSampleCards = async () => {
+    if (!dummyProjectName.trim()) {
+      toast.warning("Please type a  dummy project name", {
+        position: "bottom-left",
+      });
+      return;
+    }
     setGeneratingSamples(true);
     try {
-      await generateSampleCards(10);
+      await generateSampleCards(10, dummyProjectName.trim());
       setTriggerLoadCards(true);
-      alert("10 sample cards have been generated successfully!");
+      await loadProjectNames();
+      toast.success("10 sample cards have been generated successfully!");
     } catch (error) {
       console.error("Error generating sample cards:", error);
-      alert("Failed to generate sample cards. Please try again.");
+      toast.error("Failed to generate sample cards. Please try again.");
     } finally {
       setGeneratingSamples(false);
+      setDummyProjectName("");
     }
   };
 
@@ -110,37 +124,51 @@ function SideMain({
         {developmentModeEnabled ? (
           <div>
             <hr />
-            <h5 className="text-center">Development Mode</h5>
-            <Button
-              className="m-auto d-block mb-3"
-              variant="success"
-              onClick={handleGenerateSampleCards}
-              disabled={generatingSamples}
-            >
-              {generatingSamples ? (
-                <>
-                  <Spinner
-                    as="span"
-                    animation="border"
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                    className="me-2"
-                  />
-                  Generating...
-                </>
-              ) : (
-                <>
-                  <PlusCircleFill className="me-2 mb-1" />
-                  Add 10 Dummy Cards
-                </>
-              )}
-            </Button>
-            <input
+            {/* h5 with underlined text */}
+
+            <h5 className="pb-3 text-center text-decoration-underline">
+              development mode
+            </h5>
+            <Form>
+              <Form.Control
+                type="text"
+                className="m-auto d-block mb-3 p-2 border rounded w-100"
+                placeholder="Enter project name"
+                value={dummyProjectName}
+                onChange={(e) => setDummyProjectName(e.target.value)}
+              />
+
+              <Button
+                className="m-auto d-block mb-3 p-2 w-100"
+                variant="success"
+                onClick={handleGenerateSampleCards}
+                disabled={generatingSamples}
+              >
+                {generatingSamples ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      className="me-2"
+                    />
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <PlusCircleFill className="me-2 mb-1" />
+                    10 Dummy Cards
+                  </>
+                )}
+              </Button>
+              {/* <input
               className="m-auto d-block mb-3 p-2 border rounded"
               type="text"
               placeholder="Enter project name"
-            />
+            /> */}
+            </Form>
           </div>
         ) : (
           <div></div>

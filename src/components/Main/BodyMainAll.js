@@ -26,7 +26,7 @@ const BodyMainAll = ({
       ) : (
         <>
           {filteredCards.length === 0 ? (
-            <div className="text-center my-5">
+            <div className="text-center my-5 text-secondary">
               <h4>
                 No cards found.{" "}
                 {searchTerm

@@ -60,6 +60,7 @@ const ToggleLink = styled.button`
 const Register = ({ onRegisterSuccess, onSwitchToLogin }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [role] = useState('admin');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState(null);
@@ -78,7 +79,7 @@ const Register = ({ onRegisterSuccess, onSwitchToLogin }) => {
     setLoading(true);
 
     try {
-      await register(username, email, password);
+      await register(username, email, password, role);
       onRegisterSuccess();
     } catch (err) {
       console.error('Registration error:', err);

@@ -84,6 +84,18 @@ The application uses JWT-based authentication:
 - Protected routes require authentication
 - Role-based authorization for admin operations
 
+## Token Lifecycle
+
+```bash
+Login → Store Token → API Calls (with token) → Token Expires → 401 Response → Logout → Redirect to Login
+```
+
+### Token Storage Strategy
+
+- Keep using localStorage (acceptable for SPAs without sensitive data)
+- Add httpOnly cookies for refresh tokens (future enhancement)
+- Implement token rotation on each API call
+
 ## Component Architecture
 
 - Parent-child component relationship with proper data flow

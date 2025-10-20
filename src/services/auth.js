@@ -29,9 +29,9 @@ export const isAuthenticated = () => {
 };
 
 // Register a new user
-export const register = async (username, email, password) => {
+export const register = async (username, email, password, role) => {
   try {
-    const response = await axios.post(`${API_URL}/register`, { username, email, password });
+    const response = await axios.post(`${API_URL}/register`, { username, email, password, role });
     
     // Store token and user data
     setToken(response.data.token);

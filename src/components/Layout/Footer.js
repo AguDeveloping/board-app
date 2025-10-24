@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import { useRef, memo } from "react";
+import styled from "styled-components";
 
 const FooterContainer = styled.footer`
   background-color: #343a40;
@@ -16,6 +16,13 @@ const FooterText = styled.p`
 `;
 
 const Footer = () => {
+  const renderCountRef = useRef(0);
+  renderCountRef.current++;
+
+  if (process.env.NODE_ENV === "development") {
+    console.log("👣 Footer render #", renderCountRef.current);
+  }
+
   return (
     <FooterContainer>
       <FooterText>
@@ -25,4 +32,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default memo(Footer);

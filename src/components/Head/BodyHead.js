@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Row, Col, Button, Form, Spinner, Badge, Modal } from "react-bootstrap";
 import { PlusCircleFill } from "react-bootstrap-icons";
 import { createCard } from "../../services/api";
@@ -17,11 +17,23 @@ const BodyHeadAll = ({
   statusFilters,
   setStatusFilters,
 }) => {
+  const developmentModeEnabled = config.developmentMode?.enabled || false;
   const [showModal, setShowModal] = useState(false);
   const [newCardTitle, setNewCardTitle] = useState("");
   const [newCardDescription, setNewCardDescription] = useState("");
   const [newCardStatus, setNewCardStatus] = useState("todo");
   const [submitting, setSubmitting] = useState(false);
+  // ✅ Add render tracking
+  const renderCountRef = useRef(0);
+  renderCountRef.current++;
+
+  if (process.env.NODE_ENV === "development") {
+    console.log("📊 BodyHead render #", renderCountRef.current, {
+      totalFilteredCards,
+      searchTerm,
+      statusFilters,
+    });
+  }
 
   const handleStatusChange = (e) => {
     const { name, checked } = e.target;
@@ -30,8 +42,6 @@ const BodyHeadAll = ({
       [name]: checked,
     }));
   };
-
-  const developmentModeEnabled = config.developmentMode?.enabled || false;
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -135,7 +145,7 @@ const BodyHeadAll = ({
           <p className="m-0 p-0 ps-3">
             total cards{" "}
             <Badge className="p-3 fs-6" bg="secondary">
-              {totalFilteredCards}
+              {totalFilteredCards < 0 ? "..." : totalFilteredCards}
             </Badge>
           </p>
         </Col>

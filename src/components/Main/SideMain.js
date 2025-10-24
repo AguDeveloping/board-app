@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { Badge, Button, Col, Form, Row, Spinner } from "react-bootstrap";
+import { Badge, Col, Row } from "react-bootstrap";
 import viewsCards from "../../utils/viewsCards";
-import { PlusCircleFill } from "react-bootstrap-icons";
-import { generateSampleCards } from "../../utils/sampleCards";
 import config from "../../config";
 import { fetchCards } from "../../services/api";
-import { toast } from "react-toastify";
+
+import DemoCreator from "../App/DemoCreator";
 
 function SideMain({
   viewCard,
@@ -13,11 +12,8 @@ function SideMain({
   projectNameSelected,
   setProjectNameSelected,
 }) {
-  const [generatingSamples, setGeneratingSamples] = useState(false);
-  const [projectName, setProjectName] = useState("");
-  const [dummyProjectName, setDummyProjectName] = useState("");
-
   const developmentModeEnabled = config.developmentMode?.enabled || false;
+  const [projectName, setProjectName] = useState("");
 
   useEffect(() => {
     loadProjectNames();
@@ -36,29 +32,6 @@ function SideMain({
       setProjectName(projectNames);
     };
     fetchProjectNames();
-  };
-
-  // Handle sample card generation
-  const handleGenerateSampleCards = async () => {
-    if (!dummyProjectName.trim()) {
-      toast.warning("Please type a  dummy project name", {
-        position: "bottom-left",
-      });
-      return;
-    }
-    setGeneratingSamples(true);
-    try {
-      await generateSampleCards(10, dummyProjectName.trim());
-      setTriggerLoadCards(true);
-      await loadProjectNames();
-      toast.success("10 sample cards have been generated successfully!");
-    } catch (error) {
-      console.error("Error generating sample cards:", error);
-      toast.error("Failed to generate sample cards. Please try again.");
-    } finally {
-      setGeneratingSamples(false);
-      setDummyProjectName("");
-    }
   };
 
   return (
@@ -122,56 +95,15 @@ function SideMain({
 
       <Row className="sidebar-item  mt-auto">
         {developmentModeEnabled ? (
-          <div>
-            <hr />
-            {/* h5 with underlined text */}
-
-            <h5 className="pb-3 text-center text-decoration-underline">
-              development mode
-            </h5>
-            <Form>
-              <Form.Control
-                type="text"
-                className="m-auto d-block mb-3 p-2 border rounded w-100"
-                placeholder="Enter project name"
-                value={dummyProjectName}
-                onChange={(e) => setDummyProjectName(e.target.value)}
-              />
-
-              <Button
-                className="m-auto d-block mb-3 p-2 w-100"
-                variant="success"
-                onClick={handleGenerateSampleCards}
-                disabled={generatingSamples}
-              >
-                {generatingSamples ? (
-                  <>
-                    <Spinner
-                      as="span"
-                      animation="border"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                      className="me-2"
-                    />
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    <PlusCircleFill className="me-2 mb-1" />
-                    10 Dummy Cards
-                  </>
-                )}
-              </Button>
-              {/* <input
-              className="m-auto d-block mb-3 p-2 border rounded"
-              type="text"
-              placeholder="Enter project name"
-            /> */}
-            </Form>
-          </div>
+          <DemoCreator
+            setTriggerLoadCards={setTriggerLoadCards}
+            loadProjectNames={loadProjectNames}
+          />
         ) : (
-          <div></div>
+          <DemoCreator
+            setTriggerLoadCards={setTriggerLoadCards}
+            loadProjectNames={loadProjectNames}
+          />
         )}
       </Row>
     </Col>

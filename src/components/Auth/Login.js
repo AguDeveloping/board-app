@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Form, Button, Card, Container, Alert, Spinner } from 'react-bootstrap';
-import styled from 'styled-components';
-import { login } from '../../services/auth';
+import { useState } from "react";
+import { Form, Button, Card, Container, Alert, Spinner } from "react-bootstrap";
+import { toast } from "react-toastify";
+import styled from "styled-components";
+import { login } from "../../services/auth";
 
 const LoginContainer = styled(Container)`
   display: flex;
@@ -50,32 +51,44 @@ const ToggleLink = styled.button`
   font-size: 0.9rem;
   cursor: pointer;
   text-decoration: underline;
-  
+
   &:hover {
     color: #0056b3;
   }
 `;
 
 const Login = ({ onLoginSuccess, onSwitchToRegister }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Basic validation
+    if (!username || !password) {
+      toast.error("Please enter username and password");
+      return;
+    }
     setError(null);
     setLoading(true);
-
+    // Attempt login
     try {
-      await login(username, password);
-      onLoginSuccess();
+      console.log("Request payload:", { username, password });
+      console.log("API URL:", "http://localhost:3000/api/auth/login");
+      const response = await login(username, password);
+      console.log("Login response data:", response);
+
+      // ✅ Pass user data to the handler
+      if (response && response.user) {
+        onLoginSuccess(response.user); // ✅ Pass user object
+        toast.success(`Welcome back, ${response.user.username}!`);
+      } else {
+        throw new Error("Invalid response format");
+      }
     } catch (err) {
-      console.error('Login error:', err);
-      setError(
-        err.response?.data?.message ||
-        'Login failed. Please check your credentials and try again.'
-      );
+      console.error("Login error:", err);
+      toast.error("Login failed. Please check your credentials and try again.");
     } finally {
       setLoading(false);
     }
@@ -115,9 +128,9 @@ const Login = ({ onLoginSuccess, onSwitchToRegister }) => {
               />
             </Form.Group>
 
-            <Button 
-              variant="primary" 
-              type="submit" 
+            <Button
+              variant="primary"
+              type="submit"
               disabled={loading}
               className="w-100 py-2"
             >
@@ -134,16 +147,14 @@ const Login = ({ onLoginSuccess, onSwitchToRegister }) => {
                   Signing in...
                 </>
               ) : (
-                'Sign In'
+                "Sign In"
               )}
             </Button>
           </Form>
           <div className="text-center mt-4">
             <p className="mb-2">
-              Don't have an account?{' '}
-              <ToggleLink onClick={onSwitchToRegister}>
-                Sign up now
-              </ToggleLink>
+              Don't have an account?{" "}
+              <ToggleLink onClick={onSwitchToRegister}>Sign up now</ToggleLink>
             </p>
             <small className="text-muted">
               Default credentials: admin / admin123

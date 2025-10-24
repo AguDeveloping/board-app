@@ -1,7 +1,7 @@
-import React from 'react';
-import { Navbar, Container, Nav, Button } from 'react-bootstrap';
-import { PersonCircle, ShieldLock } from 'react-bootstrap-icons';
-import styled from 'styled-components';
+import { useRef, memo } from "react";
+import { Navbar, Container, Nav, Button } from "react-bootstrap";
+import { PersonCircle, ShieldLock } from "react-bootstrap-icons";
+import styled from "styled-components";
 
 const StyledNavbar = styled(Navbar)`
   background-color: #343a40;
@@ -21,8 +21,14 @@ const UserInfo = styled.span`
 
 const Header = ({ username, onLogout }) => {
   // Check if the user is an admin based on username
-  const isAdmin = username === 'admin';
-  
+  const isAdmin = username === "admin";
+  const renderCountRef = useRef(0);
+  renderCountRef.current++;
+
+  if (process.env.NODE_ENV === "development") {
+    console.log("🎨 Header render #", renderCountRef.current, { username });
+  }
+
   return (
     <StyledNavbar variant="dark" expand="lg">
       <Container>
@@ -57,4 +63,4 @@ const Header = ({ username, onLogout }) => {
   );
 };
 
-export default Header;
+export default memo(Header);

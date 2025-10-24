@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { Col, Pagination } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { fetchCards, deleteCard, updateCard } from "../../services/api";
@@ -14,7 +14,6 @@ import BodyMainStat from "./BodyMainStat";
 function BodyMain({
   viewCard,
   searchTerm,
-  setSearchTerm,
   triggerLoadCards,
   setTriggerLoadCards,
   setTotalFilteredCards,
@@ -22,26 +21,43 @@ function BodyMain({
   projectNameSelected,
 }) {
   const developmentModeEnabled = config.developmentMode?.enabled || false;
-
   const [cards, setCards] = useState([]);
   const [filteredCards, setFilteredCards] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [currentPage, setCurrentPage] = useState(1);
-
   const cardsPerPage = config.pagination.cardsPerPage;
+  // ✅ Add ref to track if cards are currently loading
+  const isLoadingRef = useRef(false);
+  // ✅ Track the last total that was actually SET to parent
+  const lastSetTotalRef = useRef(0);
+  // ✅ Track previous searchTerm to avoid unnecessary filtering
+  const prevSearchTermRef = useRef(searchTerm);
+  const prevCardsLengthRef = useRef(0);
+  // ✅ Add render tracking
+  const renderCountRef = useRef(0);
+  renderCountRef.current++;
+
+  if (process.env.NODE_ENV === "development") {
+    console.log("📦 BodyMain render #", renderCountRef.current, {
+      cardsLength: cards.length,
+      filteredCardsLength: filteredCards.length,
+      loading,
+      triggerLoadCards,
+      searchTerm,
+      lastSetTotalRef: lastSetTotalRef.current,
+      isLoadingRef: isLoadingRef.current,
+    });
+  }
 
   // Pagination logic
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   const currentCards = filteredCards.slice(indexOfFirstCard, indexOfLastCard);
   const totalPages = Math.ceil(filteredCards.length / cardsPerPage);
-
   // Handle page change
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
   // Render pagination items
   const renderPaginationItems = () => {
     const items = [];
@@ -61,6 +77,10 @@ function BodyMain({
 
   // Load cards from API
   const loadCards = useCallback(async () => {
+    if (process.env.NODE_ENV === "development") {
+      console.log("🔄 BodyMain: loadCards() called");
+    }
+
     setLoading(true);
     try {
       // Build query string from filters
@@ -72,11 +92,26 @@ function BodyMain({
         params.append("title", projectNameSelected);
       }
       const queryParams = params.toString() ? `?${params.toString()}` : "";
-
       const data = await fetchCards(queryParams);
+
+      if (process.env.NODE_ENV === "development") {
+        console.log("✅ BodyMain: Cards fetched, count:", data.length);
+      }
 
       setCards(data);
       setFilteredCards(data);
+      prevCardsLengthRef.current = data.length;
+
+      // ✅ Always call parent setter on load
+      if (process.env.NODE_ENV === "development") {
+        console.log(
+          "📊 BodyMain: Updating total from",
+          lastSetTotalRef.current,
+          "to",
+          data.length
+        );
+      }
+      lastSetTotalRef.current = data.length;
       setTotalFilteredCards(data.length);
     } catch (error) {
       console.error("Error loading cards:", error);
@@ -85,16 +120,36 @@ function BodyMain({
     }
   }, [statusFilters, setTotalFilteredCards, projectNameSelected]);
 
-  // Load cards on component mount
-  useEffect(() => {
-    loadCards();
-    setSearchTerm("");
-  }, [loadCards, setSearchTerm]);
-
   // Filter cards based on search term
   useEffect(() => {
+    // ✅ Only run if searchTerm or cards actually changed
+    if (
+      prevSearchTermRef.current === searchTerm &&
+      prevCardsLengthRef.current === cards.length
+    ) {
+      if (process.env.NODE_ENV === "development") {
+        console.log("🚫 BodyMain: Skipping filter (no changes)", {
+          searchTerm,
+          cardsLength: cards.length,
+        });
+      }
+      return;
+    }
+
+    prevSearchTermRef.current = searchTerm;
+    prevCardsLengthRef.current = cards.length;
+
+    if (process.env.NODE_ENV === "development") {
+      console.log("🎯 BodyMain: useEffect [searchTerm, cards] triggered", {
+        searchTerm,
+        cardsLength: cards.length,
+      });
+    }
+
+    let newTotal;
     if (searchTerm.trim() === "") {
       setFilteredCards(cards);
+      newTotal = cards.length;
     } else {
       const filtered = cards.filter(
         (card) =>
@@ -102,16 +157,51 @@ function BodyMain({
           card.description.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredCards(filtered);
-      setTotalFilteredCards(filtered.length);
+      newTotal = filtered.length;
     }
+    // ✅ Only call parent setter if value actually changed
+    if (lastSetTotalRef.current !== newTotal) {
+      if (process.env.NODE_ENV === "development") {
+        console.log(
+          "📊 BodyMain (filter): Updating total from",
+          lastSetTotalRef.current,
+          "to",
+          newTotal
+        );
+      }
+      lastSetTotalRef.current = newTotal;
+      setTotalFilteredCards(newTotal);
+    } else {
+      if (process.env.NODE_ENV === "development") {
+        console.log(
+          "🚫 BodyMain (filter): Skipping total update (same value:",
+          newTotal,
+          ")"
+        );
+      }
+    }
+
     setCurrentPage(1);
-  }, [searchTerm, cards, setTotalFilteredCards]);
+  }, [searchTerm, cards, setTotalFilteredCards, filteredCards]);
 
   // Load cards when triggerLoadCards changes to true.
   useEffect(() => {
-    if (triggerLoadCards) {
+    if (process.env.NODE_ENV === "development") {
+      console.log("🎯 BodyMain: useEffect [triggerLoadCards] triggered", {
+        triggerLoadCards,
+        isLoadingRef: isLoadingRef.current,
+      });
+    }
+
+    // ✅ Guard: Only load if triggered AND not already loading
+    if (triggerLoadCards && !isLoadingRef.current) {
+      isLoadingRef.current = true;
+      if (process.env.NODE_ENV === "development") {
+        console.log("📦 BodyMain: Loading cards...");
+      }
       loadCards();
       setTriggerLoadCards(false);
+      isLoadingRef.current = false;
     }
   }, [triggerLoadCards, setTriggerLoadCards, loadCards]);
 

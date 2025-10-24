@@ -1,47 +1,45 @@
-import { authAxios } from '../services/auth';
-
-const API_URL = 'http://localhost:3000/api';
+import { createCard } from "../services/api";
 
 // Sample card titles
 const sampleTitles = [
-  'Complete project documentation',
-  'Review pull requests',
-  'Fix login page bug',
-  'Update user dashboard',
-  'Implement search functionality',
-  'Create API documentation',
-  'Optimize database queries',
-  'Set up CI/CD pipeline',
-  'Design new landing page',
-  'Add unit tests for auth module',
-  'Refactor legacy code',
-  'Update dependencies',
-  'Implement dark mode',
-  'Create user onboarding flow',
-  'Fix mobile responsiveness issues'
+  "Complete project documentation",
+  "Review pull requests",
+  "Fix login page bug",
+  "Update user dashboard",
+  "Implement search functionality",
+  "Create API documentation",
+  "Optimize database queries",
+  "Set up CI/CD pipeline",
+  "Design new landing page",
+  "Add unit tests for auth module",
+  "Refactor legacy code",
+  "Update dependencies",
+  "Implement dark mode",
+  "Create user onboarding flow",
+  "Fix mobile responsiveness issues",
 ];
 
 // Sample card descriptions
 const sampleDescriptions = [
-  'Document all API endpoints and include examples for each one.',
-  'Review and approve pending pull requests from the team.',
-  'Fix the authentication issue on the login page that occurs on mobile devices.',
-  'Add new widgets and improve the layout of the user dashboard.',
-  'Implement search functionality with filters and sorting options.',
-  'Create comprehensive API documentation with Swagger.',
-  'Optimize database queries to improve application performance.',
-  'Set up continuous integration and deployment pipeline using GitHub Actions.',
-  'Design a modern and responsive landing page with the new brand guidelines.',
-  'Add comprehensive unit tests for the authentication module.',
-  'Refactor legacy code to use modern JavaScript features.',
-  'Update all dependencies to their latest versions and fix any breaking changes.',
-  'Implement dark mode across the entire application.',
-  'Create a step-by-step onboarding flow for new users.',
-  'Fix responsiveness issues on mobile devices across all pages.'
+  "Document all API endpoints and include examples for each one.",
+  "Review and approve pending pull requests from the team.",
+  "Fix the authentication issue on the login page that occurs on mobile devices.",
+  "Add new widgets and improve the layout of the user dashboard.",
+  "Implement search functionality with filters and sorting options.",
+  "Create comprehensive API documentation with Swagger.",
+  "Optimize database queries to improve application performance.",
+  "Set up continuous integration and deployment pipeline using GitHub Actions.",
+  "Design a modern and responsive landing page with the new brand guidelines.",
+  "Add comprehensive unit tests for the authentication module.",
+  "Refactor legacy code to use modern JavaScript features.",
+  "Update all dependencies to their latest versions and fix any breaking changes.",
+  "Implement dark mode across the entire application.",
+  "Create a step-by-step onboarding flow for new users.",
+  "Fix responsiveness issues on mobile devices across all pages.",
 ];
 
 // Sample card statuses
-const statuses = ['todo', 'doing', 'done'];
+const statuses = ["todo", "doing", "done"];
 
 // Generate a random card
 const generateRandomCard = () => {
@@ -52,7 +50,7 @@ const generateRandomCard = () => {
   return {
     title: sampleTitles[randomTitleIndex],
     description: sampleDescriptions[randomDescIndex],
-    status: statuses[randomStatusIndex]
+    status: statuses[randomStatusIndex],
   };
 };
 
@@ -61,19 +59,19 @@ export const generateSampleCards = async (count = 10, title) => {
   try {
     const createdCards = [];
     const cardTitle = title || `Dummy Project - ${Date.now()}`;
-    
+
     for (let i = 0; i < count; i++) {
       const cardData = generateRandomCard();
-      const response = await authAxios.post(`${API_URL}/cards`, {
+      const response = await createCard({
         ...cardData,
-        title: cardTitle
+        title: cardTitle,
       });
       createdCards.push(response.data);
     }
-    
+
     return createdCards;
   } catch (error) {
-    console.error('Error generating sample cards:', error);
+    console.error("Error generating sample cards:", error);
     throw error;
   }
 };

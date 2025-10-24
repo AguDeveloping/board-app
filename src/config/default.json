@@ -9,6 +9,6 @@
         "baseUrl": "/api"
     },
     "developmentMode": {
-        "enabled": true
+        "enabled": false
     }
 }

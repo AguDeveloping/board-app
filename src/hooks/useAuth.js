@@ -1,39 +1,60 @@
-import { useState } from "react";
-import { isAuthenticated, logout, getUser } from "../services/auth";
+import { useState, useCallback } from "react";
+import { isAuthenticated, clearCredential, getUser } from "../services/auth";
 
 function useAuth() {
-  const [user, setUser] = useState(getUser());
-  const [authenticated, setAuthenticated] = useState(isAuthenticated());
-  const [showRegister, setShowRegister] = useState(false); // Toggle between login and register
+  const [user, setUser] = useState(() => getUser());
+  const [authenticated, setAuthenticated] = useState(() => isAuthenticated());
+  // Toggle between login and register views
+  const [showRegister, setShowRegister] = useState(false);
 
-  // Handle successful login
-  const handleLoginSuccess = () => {
+  if (process.env.NODE_ENV === "development") {
+    console.log("🔐 useAuth hook render", {
+      authenticated,
+      user: user?.username,
+    });
+  }
+
+  const handleLoginSuccess = useCallback((userData) => {
+    if (process.env.NODE_ENV === "development") {
+      console.log("✅ Login success:", userData.username);
+    }
+    setUser(userData);
     setAuthenticated(true);
-    setUser(getUser());
-  };
-
-  // Handle successful registration
-  const handleRegisterSuccess = () => {
-    setAuthenticated(true);
-    setUser(getUser());
-  };
-
-  // Switch to registration form
-  const handleSwitchToRegister = () => {
-    setShowRegister(true);
-  };
-
-  // Switch to login form
-  const handleSwitchToLogin = () => {
     setShowRegister(false);
-  };
+  }, []);
 
-  // Handle logout
-  const handleLogout = () => {
-    logout();
-    setAuthenticated(false);
+  const handleRegisterSuccess = useCallback((userData) => {
+    if (process.env.NODE_ENV === "development") {
+      console.log("✅ Register success:", userData.username);
+    }
+    setUser(userData);
+    setAuthenticated(true);
+    setShowRegister(false);
+  }, []);
+
+  const handleLogout = useCallback(() => {
+    if (process.env.NODE_ENV === "development") {
+      console.log("👋 Logout");
+    }
+    clearCredential();
     setUser(null);
-  };
+    setAuthenticated(false);
+    setShowRegister(false);
+  }, []);
+
+  const handleSwitchToRegister = useCallback(() => {
+    if (process.env.NODE_ENV === "development") {
+      console.log("🔄 Switch to register");
+    }
+    setShowRegister(true);
+  }, []);
+
+  const handleSwitchToLogin = useCallback(() => {
+    if (process.env.NODE_ENV === "development") {
+      console.log("🔄 Switch to login");
+    }
+    setShowRegister(false);
+  }, []);
 
   // RETURN the properties and functions.
   return {

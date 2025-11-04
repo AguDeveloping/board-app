@@ -1,6 +1,6 @@
 import axios from "axios"; // Use plain axios for auth endpoints
 
-const API_URL = "http://localhost:3000/api/auth";
+const API_AUTH_URL = process.env.REACT_APP_API_AUTH_URL || "http://0.0.0.0:3000/api/auth";
 
 // ========================================
 // TOKEN MANAGEMENT
@@ -64,7 +64,7 @@ export const isAuthenticated = () => {
 // Register a new user
 export const register = async (username, email, password, role) => {
   try {
-    const response = await axios.post(`${API_URL}/register`, {
+    const response = await axios.post(`${API_AUTH_URL}/register`, {
       username,
       email,
       password,
@@ -86,9 +86,9 @@ export const register = async (username, email, password, role) => {
 export const login = async (username, password) => {
   try {
     console.log("Request payload:", { username, password });
-    console.log("API URL:", `${API_URL}/login`);
+    console.log("API URL:", `${API_AUTH_URL}/login`);
 
-    const response = await axios.post(`${API_URL}/login`, {
+    const response = await axios.post(`${API_AUTH_URL}/login`, {
       username,
       password,
     });

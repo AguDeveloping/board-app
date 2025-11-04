@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Badge, Col, Row } from "react-bootstrap";
 import viewsCards from "../../utils/viewsCards";
-import config from "../../config";
 import { fetchCards } from "../../services/api";
 
 import DemoCreator from "../App/DemoCreator";
@@ -12,7 +11,7 @@ function SideMain({
   projectNameSelected,
   setProjectNameSelected,
 }) {
-  const developmentModeEnabled = config.developmentMode?.enabled || false;
+  const developmentModeEnabled = process.env.REACT_APP_DESIGN_ENABLED === "true";
   const [projectName, setProjectName] = useState("");
 
   useEffect(() => {

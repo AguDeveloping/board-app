@@ -2,7 +2,6 @@ import { useState, useRef } from "react";
 import { Row, Col, Button, Form, Spinner, Badge, Modal } from "react-bootstrap";
 import { PlusCircleFill } from "react-bootstrap-icons";
 import { createCard } from "../../services/api";
-import config from "../../config";
 
 import "./BodyHead.css";
 
@@ -17,7 +16,7 @@ const BodyHeadAll = ({
   statusFilters,
   setStatusFilters,
 }) => {
-  const developmentModeEnabled = config.developmentMode?.enabled || false;
+  const developmentModeEnabled = process.env.REACT_APP_DESIGN_ENABLED === "true";
   const [showModal, setShowModal] = useState(false);
   const [newCardTitle, setNewCardTitle] = useState("");
   const [newCardDescription, setNewCardDescription] = useState("");

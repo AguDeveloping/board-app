@@ -1,9 +1,8 @@
 import { Button, Col, Row } from "react-bootstrap";
 import viewsCards from "../../utils/viewsCards";
-import config from "../../config";
 
 function SideHead({ viewCard, setViewCard, setProjectNameSelected }) {
-  const developmentModeEnabled = config.developmentMode?.enabled || false;
+  const developmentModeEnabled = process.env.REACT_APP_DESIGN_ENABLED === "true";
 
   return (
     <Col

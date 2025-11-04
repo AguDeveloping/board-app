@@ -121,6 +121,20 @@ function App() {
     );
   }
 
+  // TODO AR: Temporarily to verify config loading
+  useEffect(() => {
+    if (process.env.NODE_ENV === "development") {
+      console.log("🔧 App Config Check: ###################################", {
+        PORT: process.env.PORT,
+        NODE_ENV: process.env.NODE_ENV,
+        REACT_APP_API_BASE_URL: process.env.REACT_APP_API_BASE_URL,
+        REACT_APP_API_AUTH_URL: process.env.REACT_APP_API_AUTH_URL,
+        REACT_APP_CARDS_PER_PAGE: process.env.REACT_APP_CARDS_PER_PAGE,
+        REACT_APP_DESIGN_ENABLED: process.env.REACT_APP_DESIGN_ENABLED,
+      });
+    }
+  }, []);
+
   // ✅ Memoize status filters to prevent unnecessary re-renders
   const statusFiltersString = useMemo(
     () => JSON.stringify(statusFilters),

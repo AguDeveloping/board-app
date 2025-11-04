@@ -3,7 +3,6 @@ import { Col, Pagination } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { fetchCards, deleteCard, updateCard } from "../../services/api";
 import viewsCards from "../../utils/viewsCards";
-import config from "../../config";
 
 import "./BodyMain.css";
 
@@ -20,12 +19,12 @@ function BodyMain({
   statusFilters,
   projectNameSelected,
 }) {
-  const developmentModeEnabled = config.developmentMode?.enabled || false;
+  const developmentModeEnabled = process.env.REACT_APP_DESIGN_ENABLED === "true";
   const [cards, setCards] = useState([]);
   const [filteredCards, setFilteredCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = config.pagination.cardsPerPage;
+  const cardsPerPage = parseInt(process.env.REACT_APP_CARDS_PER_PAGE) || 6;
   // ✅ Add ref to track if cards are currently loading
   const isLoadingRef = useRef(false);
   // ✅ Track the last total that was actually SET to parent

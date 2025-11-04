@@ -75,7 +75,7 @@ const Login = ({ onLoginSuccess, onSwitchToRegister }) => {
     // Attempt login
     try {
       console.log("Request payload:", { username, password });
-      console.log("API URL:", "http://localhost:3000/api/auth/login");
+      console.log("API Auth URL:", `${process.env.REACT_APP_API_AUTH_URL}/login`);
       const response = await login(username, password);
       console.log("Login response data:", response);
 

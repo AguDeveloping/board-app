@@ -1,0 +1,10 @@
+name: card-app
+services:
+  frontend:
+    build:
+      context: ../
+      dockerfile: docker/nginx.Dockerfile  # Use nginx Dockerfile
+    container_name: frontend-card
+    ports:
+      - "4000:4000"
+    restart: unless-stopped

@@ -6,14 +6,15 @@
   "keywords": [],
   "license": "ISC",
   "engines": {
-    "npm": "11.5.1",
-    "node": "24.5.0"
+    "npm": "11.6.1",
+    "node": "24.10.0"
   },
-  "main": "./src/index.tsx",
+  "main": "./src/index.js",
   "scripts": {
-    "dev": "cross-env PORT=3001 BROWSER=none react-scripts start",
-    "start": "cross-env PORT=3001 react-scripts start",
+    "dev": "cross-env REACT_APP_ENVIRONMENT=development react-scripts start",
+    "start": "react-scripts start",
     "build": "cross-env CI=true react-scripts build",
+    "build:production": "cross-env CI=true NODE_ENV=production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -63,6 +64,7 @@
     ]
   },
   "devDependencies": {
-    "cross-env": "^10.1.0"
+    "cross-env": "^10.1.0",
+    "gh-pages": "^6.1.0"
   }
 }

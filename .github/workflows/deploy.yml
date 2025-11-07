@@ -39,7 +39,7 @@ jobs:
         env:
           CI: false
           NODE_ENV: production
-          PUBLIC_URL: /board-card-app
+          PUBLIC_URL: /board-app
           REACT_APP_API_BASE_URL: ${{ vars.REACT_APP_API_BASE_URL }}
           REACT_APP_API_AUTH_URL: ${{ vars.REACT_APP_API_AUTH_URL }}
         run: npm run build

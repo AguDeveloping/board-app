@@ -26,7 +26,7 @@ const Footer = () => {
   return (
     <FooterContainer>
       <FooterText>
-        &copy; {new Date().getFullYear()} Card Board App. All rights reserved.
+        &copy; {new Date().getFullYear()} Board App. All rights reserved.
       </FooterText>
     </FooterContainer>
   );

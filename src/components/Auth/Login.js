@@ -98,7 +98,7 @@ const Login = ({ onLoginSuccess, onSwitchToRegister }) => {
     <LoginContainer fluid>
       <LoginCard>
         <CardHeader>
-          <CardTitle>Card Board App</CardTitle>
+          <CardTitle>Board App</CardTitle>
           <CardSubtitle>Sign in to manage your cards</CardSubtitle>
         </CardHeader>
         <CardBody>

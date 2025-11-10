@@ -33,7 +33,7 @@ const Header = ({ username, onLogout }) => {
     <StyledNavbar variant="dark" expand="lg">
       <Container>
         <Navbar.Brand href="#">
-          <Logo>Card Board</Logo>
+          <Logo>Board App</Logo>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">

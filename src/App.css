@@ -1,3 +1,51 @@
+/* Only target specific elements */
+body {
+  cursor: auto !important;
+}
+
+html {
+  cursor: auto !important;
+}
+
+/* Bootstrap specific overrides */
+.container-fluid,
+.container,
+.card,
+.form-control {
+  cursor: auto !important;
+}
+
+/* Allow proper cursor types for interactive elements */
+button:not(:disabled) {
+  cursor: pointer !important;
+}
+
+input[type="text"]:not(:disabled),
+input[type="password"]:not(:disabled),
+textarea:not(:disabled) {
+  cursor: text !important;
+}
+
+a:not(:disabled) {
+  cursor: pointer !important;
+}
+
+/* Loading states - only when explicitly marked */
+.loading,
+.loading * {
+  cursor: wait !important;
+}
+
+/* Prevent cursor from being set on non-interactive elements */
+.card-body,
+.container,
+.row,
+.col {
+  cursor: default !important;
+}
+
+/* ===================================== */
+
 .App {
   text-align: center;
 }

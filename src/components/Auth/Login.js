@@ -65,6 +65,14 @@ const Login = ({ onLoginSuccess, onSwitchToRegister }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (process.env.NODE_ENV === "development") {
+      console.log("🚀 Login form submitted");
+      console.log("📊 Form data:", {
+        username: username || "empty",
+        password: password ? "***" : "empty",
+        currentLoading: loading,
+      });
+    }
     // Basic validation
     if (!username || !password) {
       toast.error("Please enter username and password");
@@ -72,24 +80,63 @@ const Login = ({ onLoginSuccess, onSwitchToRegister }) => {
     }
     setError(null);
     setLoading(true);
+
     // Attempt login
     try {
       console.log("Request payload:", { username, password });
-      console.log("API Auth URL:", `${process.env.REACT_APP_API_AUTH_URL}/login`);
+      console.log(
+        "API Auth URL:",
+        `${process.env.REACT_APP_API_AUTH_URL}/login`
+      );
+      if (process.env.NODE_ENV === "development") {
+        console.log("📡 Making login API call...");
+      }
       const response = await login(username, password);
+      if (process.env.NODE_ENV === "development") {
+        console.log("✅ Login API call completed successfully");
+      }
       console.log("Login response data:", response);
 
       // ✅ Pass user data to the handler
       if (response && response.user) {
+        if (process.env.NODE_ENV === "development") {
+          console.log("✅ Valid response received, calling onLoginSuccess");
+        }
         onLoginSuccess(response.user); // ✅ Pass user object
         toast.success(`Welcome back, ${response.user.username}!`);
       } else {
         throw new Error("Invalid response format");
       }
     } catch (err) {
+      if (process.env.NODE_ENV === "development") {
+        console.log("❌ Login error occurred:", {
+          errorType: err.constructor.name,
+          message: err.message,
+          status: err.response?.status,
+          data: err.response?.data,
+        });
+      }
       console.error("Login error:", err);
-      toast.error("Login failed. Please check your credentials and try again.");
+
+      // More specific error handling
+      if (err.response?.status === 401) {
+        const errorMessage =
+          err.response?.data?.message || "Invalid credentials";
+        toast.error(errorMessage);
+        setError(errorMessage);
+      } else if (err.response?.data?.message) {
+        toast.error(err.response.data.message);
+        setError(err.response.data.message);
+      } else {
+        toast.error(
+          "Login failed. Please check your credentials and try again."
+        );
+        setError("Login failed. Please try again.");
+      }
     } finally {
+      if (process.env.NODE_ENV === "development") {
+        console.log("🔧 Login process completed, setting loading to false");
+      }
       setLoading(false);
     }
   };

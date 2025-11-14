@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { Form, Button, Card, Container, Alert, Spinner } from 'react-bootstrap';
-import { PersonPlusFill } from 'react-bootstrap-icons';
-import styled from 'styled-components';
-import { register } from '../../services/auth';
+import React, { useState } from "react";
+import { Form, Button, Card, Container, Alert, Spinner } from "react-bootstrap";
+import { PersonPlusFill } from "react-bootstrap-icons";
+import styled from "styled-components";
+import { register } from "../../services/auth";
+import { toast } from "react-toastify";
 
 const RegisterContainer = styled(Container)`
   display: flex;
@@ -51,43 +52,113 @@ const ToggleLink = styled.button`
   font-size: 0.9rem;
   cursor: pointer;
   text-decoration: underline;
-  
+
   &:hover {
     color: #0056b3;
   }
 `;
 
 const Register = ({ onRegisterSuccess, onSwitchToLogin }) => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [role] = useState('admin');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [role] = useState("admin");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
+    if (process.env.NODE_ENV === "development") {
+      console.log("🚀 Register form submitted");
+      console.log("📊 Form data:", {
+        username: username || "empty",
+        email: email || "empty",
+        password: password ? "***" : "empty",
+        confirmPassword: confirmPassword ? "***" : "empty",
+        currentLoading: loading,
+      });
+    }
+
     // Validate form
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
+    if (!username || !email || !password || !confirmPassword) {
+      toast.error("Please fill in all fields");
       return;
     }
-    
+
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      setError("Passwords do not match");
+      return;
+    }
+
     setError(null);
     setLoading(true);
 
     try {
-      await register(username, email, password, role);
+      console.log("Request payload:", { username, email, password, role });
+      console.log(
+        "API Auth URL:",
+        `${process.env.REACT_APP_API_AUTH_URL}/register`
+      );
+
+      if (process.env.NODE_ENV === "development") {
+        console.log("📡 Making register API call...");
+      }
+
+      const response = await register(username, email, password, role);
+
+      if (process.env.NODE_ENV === "development") {
+        console.log("✅ Register API call completed successfully");
+      }
+      console.log("Register response data:", response);
+
+      // ✅ Success feedback
+      toast.success(`Account created successfully! Welcome, ${username}!`);
+
+      if (process.env.NODE_ENV === "development") {
+        console.log("✅ Registration successful, calling onRegisterSuccess");
+      }
+
       onRegisterSuccess();
     } catch (err) {
-      console.error('Registration error:', err);
-      setError(
-        err.response?.data?.message ||
-        'Registration failed. Please try again with different credentials.'
-      );
+      if (process.env.NODE_ENV === "development") {
+        console.log("❌ Register error occurred:", {
+          errorType: err.constructor.name,
+          message: err.message,
+          status: err.response?.status,
+          data: err.response?.data,
+        });
+      }
+      console.error("Registration error:", err);
+
+      // More specific error handling
+      if (err.response?.status === 409) {
+        const errorMessage =
+          err.response?.data?.message || "Username or email already exists";
+        toast.error(errorMessage);
+        setError(errorMessage);
+      } else if (err.response?.status === 400) {
+        const errorMessage =
+          err.response?.data?.message || "Invalid registration data";
+        toast.error(errorMessage);
+        setError(errorMessage);
+      } else if (err.response?.data?.message) {
+        toast.error(err.response.data.message);
+        setError(err.response.data.message);
+      } else {
+        toast.error(
+          "Registration failed. Please check your information and try again."
+        );
+        setError(
+          "Registration failed. Please try again with different credentials."
+        );
+      }
     } finally {
+      if (process.env.NODE_ENV === "development") {
+        console.log("🔧 Register process completed, setting loading to false");
+      }
       setLoading(false);
     }
   };
@@ -150,9 +221,9 @@ const Register = ({ onRegisterSuccess, onSwitchToLogin }) => {
               />
             </Form.Group>
 
-            <Button 
-              variant="primary" 
-              type="submit" 
+            <Button
+              variant="primary"
+              type="submit"
               disabled={loading}
               className="w-100 py-2 fw-bold"
             >
@@ -178,10 +249,8 @@ const Register = ({ onRegisterSuccess, onSwitchToLogin }) => {
           </Form>
           <div className="text-center mt-4">
             <p className="mb-0">
-              Already have an account?{' '}
-              <ToggleLink onClick={onSwitchToLogin}>
-                Sign in
-              </ToggleLink>
+              Already have an account?{" "}
+              <ToggleLink onClick={onSwitchToLogin}>Sign in</ToggleLink>
             </p>
           </div>
         </CardBody>

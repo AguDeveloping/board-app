@@ -35,7 +35,12 @@ const Card = ({ id, title, description, status, onDelete, onUpdate }) => {
         description: editDescription,
         status: editStatus,
       };
-      // console.log("ON card component - Submitting updated card:", updatedCardData);
+      if (process.env.NODE_ENV === "development") {
+        console.log(
+          "🔧 Card component - Submitting updated card:",
+          updatedCardData
+        );
+      }
       onUpdate(updatedCardData);
 
       handleCloseModal();

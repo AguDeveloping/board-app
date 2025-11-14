@@ -10,6 +10,8 @@ import "./App.css";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import MemoizedDashboard from "./components/Layout/MemoizedDashboard";
+import { ToastContainer } from "react-toastify";
+import { toastConfig } from "./config/toastConfig";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -121,7 +123,7 @@ function App() {
     );
   }
 
-  // TODO AR: Temporarily to verify config loading
+  // Log app config on mount
   useEffect(() => {
     if (process.env.NODE_ENV === "development") {
       console.log("🔧 App Config Check: ###################################", {
@@ -474,34 +476,42 @@ function App() {
 
   // If not authenticated, show login or registration screen
   if (!authenticated) {
-    return showRegister ? (
-      <Register
-        onRegisterSuccess={handleRegisterSuccess}
-        onSwitchToLogin={handleSwitchToLogin}
-      />
-    ) : (
-      <Login
-        onLoginSuccess={handleLoginSuccess}
-        onSwitchToRegister={handleSwitchToRegister}
-      />
+    return (
+      <>
+        {showRegister ? (
+          <Register
+            onRegisterSuccess={handleRegisterSuccess}
+            onSwitchToLogin={handleSwitchToLogin}
+          />
+        ) : (
+          <Login
+            onLoginSuccess={handleLoginSuccess}
+            onSwitchToRegister={handleSwitchToRegister}
+          />
+        )}
+        <ToastContainer {...toastConfig} />
+      </>
     );
   }
 
   return (
-    <MemoizedDashboard
-      user={user}
-      handleLogout={handleLogout}
-      searchTerm={searchTerm}
-      handleSearchTermChange={handleSearchTermChange}
-      setTriggerLoadCards={setTriggerLoadCards}
-      totalFilteredCards={totalFilteredCards}
-      memoizedStatusFilters={memoizedStatusFilters}
-      handleStatusFiltersChange={handleStatusFiltersChange}
-      dashboardState={dashboardState}
-      setViewCard={setViewCard}
-      setProjectNameSelected={setProjectNameSelected}
-      handleTotalFilteredCardsChange={handleTotalFilteredCardsChange}
-    />
+    <>
+      <MemoizedDashboard
+        user={user}
+        handleLogout={handleLogout}
+        searchTerm={searchTerm}
+        handleSearchTermChange={handleSearchTermChange}
+        setTriggerLoadCards={setTriggerLoadCards}
+        totalFilteredCards={totalFilteredCards}
+        memoizedStatusFilters={memoizedStatusFilters}
+        handleStatusFiltersChange={handleStatusFiltersChange}
+        dashboardState={dashboardState}
+        setViewCard={setViewCard}
+        setProjectNameSelected={setProjectNameSelected}
+        handleTotalFilteredCardsChange={handleTotalFilteredCardsChange}
+      />
+      <ToastContainer {...toastConfig} />
+    </>
   );
 }
 

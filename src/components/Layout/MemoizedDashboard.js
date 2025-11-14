@@ -1,6 +1,5 @@
 import { memo } from "react";
 import { Container, Row } from "react-bootstrap";
-import { ToastContainer } from "react-toastify";
 
 import AppContainer from "./AppContainer";
 import Header from "./Header";
@@ -80,7 +79,6 @@ const MemoizedDashboard = memo(
         </MainContent>
 
         <MemoizedFooter />
-        <ToastContainer />
       </AppContainer>
     );
   },
@@ -116,7 +114,7 @@ const MemoizedDashboard = memo(
         setTriggerLoadCardsChanged:
           prevProps.setTriggerLoadCards !== nextProps.setTriggerLoadCards,
         totalFilteredCardsChanged:
-          prevProps.totalFilteredCards !== nextProps.totalFilteredCards, // ✅ This will now trigger re-render
+          prevProps.totalFilteredCards !== nextProps.totalFilteredCards,
         memoizedStatusFiltersChanged:
           prevProps.memoizedStatusFilters !== nextProps.memoizedStatusFilters,
         handleStatusFiltersChangeChanged:

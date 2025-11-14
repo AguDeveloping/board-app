@@ -19,7 +19,8 @@ function BodyMain({
   statusFilters,
   projectNameSelected,
 }) {
-  const developmentModeEnabled = process.env.REACT_APP_DESIGN_ENABLED === "true";
+  const developmentModeEnabled =
+    process.env.REACT_APP_DESIGN_ENABLED === "true";
   const [cards, setCards] = useState([]);
   const [filteredCards, setFilteredCards] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -101,23 +102,39 @@ function BodyMain({
       setFilteredCards(data);
       prevCardsLengthRef.current = data.length;
 
-      // ✅ Always call parent setter on load
-      if (process.env.NODE_ENV === "development") {
-        console.log(
-          "📊 BodyMain: Updating total from",
-          lastSetTotalRef.current,
-          "to",
-          data.length
-        );
+      // ✅ Only call parent setter if total actually changed
+      if (lastSetTotalRef.current !== data.length) {
+        if (process.env.NODE_ENV === "development") {
+          console.log(
+            "📊 BodyMain: Updating total from",
+            lastSetTotalRef.current,
+            "to",
+            data.length
+          );
+        }
+        lastSetTotalRef.current = data.length;
+        setTotalFilteredCards(data.length);
+      } else {
+        if (process.env.NODE_ENV === "development") {
+          console.log(
+            "🚫 BodyMain: Skipping total update (same value:",
+            data.length,
+            ")"
+          );
+        }
       }
-      lastSetTotalRef.current = data.length;
-      setTotalFilteredCards(data.length);
     } catch (error) {
       console.error("Error loading cards:", error);
     } finally {
       setLoading(false);
     }
-  }, [statusFilters, setTotalFilteredCards, projectNameSelected]);
+  }, [
+    statusFilters.todo,
+    statusFilters.doing,
+    statusFilters.done,
+    setTotalFilteredCards,
+    projectNameSelected,
+  ]);
 
   // Filter cards based on search term
   useEffect(() => {
@@ -181,7 +198,7 @@ function BodyMain({
     }
 
     setCurrentPage(1);
-  }, [searchTerm, cards, setTotalFilteredCards, filteredCards]);
+  }, [searchTerm, cards, setTotalFilteredCards]);
 
   // Load cards when triggerLoadCards changes to true.
   useEffect(() => {
@@ -198,26 +215,43 @@ function BodyMain({
       if (process.env.NODE_ENV === "development") {
         console.log("📦 BodyMain: Loading cards...");
       }
-      loadCards();
+      // ✅ Reset trigger FIRST to prevent multiple calls
       setTriggerLoadCards(false);
-      isLoadingRef.current = false;
+
+      // ✅ Then load cards async
+      loadCards().finally(() => {
+        isLoadingRef.current = false;
+      });
     }
   }, [triggerLoadCards, setTriggerLoadCards, loadCards]);
 
   // Handle card update
   const handleCardUpdate = async (updatedCardData) => {
     try {
-      // console.log('handleCardUpdate called with:', updatedCardData);
+      console.log("handleCardUpdate called with:", updatedCardData);
       const { _id, title, description, status } = updatedCardData;
       const updatedCard = await updateCard(_id, {
         title,
         description,
         status,
       });
-      // console.log('Update response:', updatedCard);
-      setCards(
-        cards.map((card) => (card._id === updatedCard._id ? updatedCard : card))
+      console.log("Update response:", updatedCard);
+
+      // ✅ Trigger reload FIRST to ensure fresh data
+      setTriggerLoadCards(true);
+      // ✅ Update local state for immediate UI feedback
+      setCards((prevCards) =>
+        prevCards.map((card) =>
+          card._id === updatedCard._id ? updatedCard : card
+        )
       );
+      // ✅ Also update filtered cards to reflect changes immediately
+      setFilteredCards((prevFiltered) =>
+        prevFiltered.map((card) =>
+          card._id === updatedCard._id ? updatedCard : card
+        )
+      );
+
       toast.success("Card updated successfully!");
     } catch (error) {
       console.error("Error updating card:", error);

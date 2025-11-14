@@ -7,3 +7,70 @@
   height: 300px;
   margin-bottom: 10px;
 }
+
+/* Responsive breakpoint at 780px */
+@media (max-width: 780px) {
+  .project-columns {
+    flex-direction: column !important;
+  }
+  
+  .project-columns > .col {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    margin-bottom: 2rem;
+  }
+  
+  /* Increased column height for mobile to show more cards */
+  .project-column-scroll {
+    max-height: 600px; /* Increased from 400px to 600px */
+    overflow-y: auto;
+  }
+  
+  /* Make cards slightly shorter on mobile to fit more content */
+  .vertical-card {
+    height: 250px;
+    margin-bottom: 8px;
+  }
+  
+  /* Add some spacing between columns */
+  .project-columns > .col:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* Additional responsive adjustments for smaller screens */
+@media (max-width: 576px) {
+  .project-columns > .col {
+    margin-bottom: 1.5rem;
+  }
+  
+  .project-column-scroll {
+    max-height: 500px; /* Increased from 350px to 500px */
+  }
+  
+  .vertical-card {
+    height: 280px; /* Increased from 220px to 280px */
+    margin-bottom: 6px;
+  }
+  
+  /* Make column headers smaller on mobile */
+  .project-columns h4 {
+    font-size: 1.2rem;
+    margin: 1rem 0 !important;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .project-column-scroll {
+    max-height: 450px; /* Increased from 300px to 450px */
+  }
+  
+  .vertical-card {
+    height: 260px; /* Increased from 200px to 260px */
+  }
+  
+  .project-columns h4 {
+    font-size: 1.1rem;
+  }
+}

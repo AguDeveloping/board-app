@@ -1,0 +1,75 @@
+/* Default styles for SideMain */
+.layout-sidebar {
+    /* Add any default styling here if needed */
+}
+
+/* Responsive breakpoint at 992px (lg breakpoint) */
+@media (max-width: 991.98px) {
+    .layout-sidebar {
+        /* Ensure full width when stacked */
+        width: 100% !important;
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+        
+        /* Add some bottom margin to separate from BodyMain */
+        margin-bottom: 1rem;
+        
+        /* Adjust padding for mobile view */
+        padding: 0.75rem;
+    }
+    
+    /* Adjust sidebar items for horizontal layout */
+    .sidebar-item {
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Make the mode badge more compact */
+    .sidebar-item .badge {
+        font-size: 0.875rem !important;
+        padding: 0.5rem 1rem !important;
+    }
+    
+    /* Adjust project selector for mobile */
+    .form-select {
+        font-size: 0.9rem;
+    }
+}
+
+/* Additional styles for smaller screens */
+@media (max-width: 768px) {
+    .layout-sidebar {
+        padding: 0.5rem;
+    }
+    
+    .sidebar-item {
+        margin-bottom: 0.75rem;
+    }
+    
+    /* Stack mode label and badge vertically on small screens */
+    .sidebar-item .text-end {
+        text-align: center !important;
+        margin-bottom: 0.5rem;
+    }
+    
+    .sidebar-item .col-xs-4,
+    .sidebar-item .col-xs-8 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 576px) {
+    .layout-sidebar {
+        padding: 0.25rem;
+    }
+    
+    .sidebar-item h5 {
+        font-size: 1rem;
+    }
+    
+    .badge {
+        font-size: 0.8rem !important;
+        padding: 0.4rem 0.8rem !important;
+    }
+}

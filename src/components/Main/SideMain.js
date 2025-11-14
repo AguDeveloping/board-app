@@ -5,6 +5,8 @@ import { fetchCards } from "../../services/api";
 
 import DemoCreator from "../App/DemoCreator";
 
+import "./SideMain.css";
+
 function SideMain({
   viewCard,
   setTriggerLoadCards,

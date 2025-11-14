@@ -1,5 +1,11 @@
-.layout-main-stat {
+/* .layout-main-stat {
     height: 660px;
+} */
+.layout-main-stat {
+    min-height: 660px;
+    /* Changed from fixed height to min-height */
+    height: auto;
+    /* Allow content to expand naturally */
 }
 
 .raw-stats {
@@ -17,18 +23,93 @@
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 10px;
-    height: 300px;
+    /* height: 300px; */
+    /* Changed from fixed height to min-height */
+    min-height: 300px;
+    /* Allow content to expand naturally */
+    height: auto;
 }
 
 .chart-container {
     margin-top: 20px;
     padding-left: 20px;
-    height: 300px;
-    width: 440px;
+    /* height: 300px;
+    width: 440px; */
+    min-height: 300px; /* Changed from fixed height to min-height */
+    height: auto; /* Allow content to expand naturally */
+    width: 100%; /* Make it responsive */
+    max-width: 440px; /* Set max-width instead of fixed width */
 }
 
 .chart-title {
     text-align: center;
     text-decoration: underline;
     margin-bottom: 1rem;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+    .layout-main-stat {
+        min-height: auto;
+        padding: 10px;
+    }
+    
+    .stats-low-columns {
+        margin: 10px 0;
+        padding: 15px;
+        min-height: 200px; /* Reduced for mobile */
+        height: auto; /* Ensure auto height */
+    }
+    
+    .chart-container {
+        padding-left: 10px;
+        width: 100%;
+        max-width: 100%;
+        min-height: 200px; /* Reduced for mobile */
+        height: auto; /* Ensure auto height */
+    }
+    
+    .raw-stats {
+        padding-left: 10px;
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .stats-low-columns {
+        margin: 5px 0;
+        padding: 10px;
+        min-height: 150px; /* Further reduced for small screens */
+        height: auto;
+    }
+    
+    .chart-container {
+        margin-top: 10px;
+        padding-left: 5px;
+        min-height: 150px; /* Further reduced for small screens */
+        height: auto;
+        width: 100%;
+    }
+    
+    .raw-stats {
+        margin-top: 10px;
+    }
+}
+
+/* Additional breakpoint for very small screens */
+@media (max-width: 480px) {
+    .layout-main-stat {
+        padding: 5px;
+    }
+    
+    .stats-low-columns {
+        margin: 3px 0;
+        padding: 8px;
+        min-height: 120px;
+    }
+    
+    .chart-container {
+        padding-left: 0;
+        min-height: 120px;
+    }
 }

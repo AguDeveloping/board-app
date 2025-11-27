@@ -26,7 +26,7 @@ yarn-error.log*
 
 # robot framework dependencies
 /robot/venv
-# /robot/results
+/robot/results
 
 # VSCode settings
 .vscode/*

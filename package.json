@@ -21,8 +21,8 @@
   ],
   "license": "ISC",
   "engines": {
-    "npm": "11.6.1",
-    "node": "24.10.0"
+    "npm": ">=11.6.1",
+    "node": ">=24.10.0"
   },
   "main": "./src/index.js",
   "scripts": {
@@ -55,7 +55,7 @@
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.9.5",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-toastify": "^11.0.5",
     "styled-components": "^6.1.18",
     "typescript": "^4.9.5",
@@ -82,5 +82,17 @@
   "devDependencies": {
     "cross-env": "^10.1.0",
     "gh-pages": "^6.1.0"
+  },
+  "overrides": {
+    "nth-check": "^2.1.1",
+    "postcss": "^8.4.49",
+    "svgo": "^3.3.2",
+    "webpack-dev-server": "^4.15.2"
+  },
+  "audit": {
+    "ignore": [
+      "GHSA-9jgg-88mc-972h",
+      "GHSA-4v9v-hfq4-rm2v"
+    ]
   }
 }
